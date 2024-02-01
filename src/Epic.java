@@ -1,22 +1,19 @@
 import java.util.ArrayList;
 
-public class Epic {
-    String name;
-    int id;
-    StatusTypes status;
-    ArrayList<SubTask> subTasks;
+public class Epic extends Task {
+    ArrayList<Integer> subTaskList;
 
-    public Epic(String name, int id) {
-        this.name = name;
-        this.id = id;
+    Epic(Task task) {
+        super(task.name, task.id, task.discription);
         this.status = StatusTypes.NEW;
-        this.subTasks = new ArrayList<SubTask>();
+        this.subTaskList = new ArrayList<Integer>();
     }
 
     @Override
     public String toString() {
         return "Эпик:'" + name +
                 "', id:'" + id +
+                "', С описанием:'" + discription +
                 "', C текущим статусом:'" + status + "'";
 
     }

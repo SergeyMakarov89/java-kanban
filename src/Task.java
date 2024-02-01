@@ -1,13 +1,13 @@
 public class Task {
-    String name;
-    String discription;
+    String  name;
     int id;
+    String discription;
     StatusTypes status;
 
-    public Task(String name, String discription, int id) {
+    public Task(String name, int id, String discription) {
         this.name = name;
-        this.discription = discription;
         this.id = id;
+        this.discription = discription;
         this.status = StatusTypes.NEW;
     }
 
@@ -18,4 +18,5 @@ public class Task {
                 "', С описанием:'" + discription +
                 "', C текущим статусом:'" + status + "'";
     }
+
 }

@@ -1,20 +1,17 @@
-public class SubTask extends Epic {
-    String name;
-    int id;
-    StatusTypes status;
-    int parentEpicId;
+public class SubTask extends Task {
 
-    public SubTask(Epic epic, String name, int id) {
-        super(epic.name, epic.id);
-        this.id = id;
-        this.name = name;
+    int parrentId;
+    SubTask(Task task, int parrentId) {
+        super(task.name, task.id, task.discription);
         this.status = StatusTypes.NEW;
-        this.parentEpicId = epic.id;
+        this.parrentId = parrentId;
     }
-
     @Override
     public String toString() {
         return "Подзадача:'" + name +
+                "', id:'" + id +
+                "', С описанием:'" + discription +
                 "', C текущим статусом:'" + status + "'";
     }
+
 }
