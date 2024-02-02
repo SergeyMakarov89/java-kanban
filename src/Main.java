@@ -1,70 +1,81 @@
-import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        scanner.useDelimiter("\n");
         TaskManager taskManager = new TaskManager();
-        int command = 0;
 
         System.out.println("\nПРОГРАММА ТРЕКЕР ЗАДАЧ ЗАПУЩЕНА");
-        while (true) {
-            printMainMenu();
-            command = scanner.nextInt();
 
-            switch (command) {
-                case 1:
-                    taskManager.printAllTasksAndEpicsWithSubtasks();
-                    break;
-                case 2:
-                    taskManager.printById(scanner);
-                    break;
-                case 3:
-                    taskManager.makeNewTask(scanner);
-                    break;
-                case 4:
-                    taskManager.makeNewEpic(scanner);
-                    break;
-                case 5:
-                    taskManager.makeNewSubTask(scanner);
-                    break;
-                case 6:
-                    taskManager.changeTask(scanner);
-                    break;
-                case 7:
-                    taskManager.changeEpic(scanner);
-                    break;
-                case 8:
-                    taskManager.changeSubTask(scanner);
-                    break;
-                case 9:
-                    taskManager.deleteById(scanner);
-                    break;
-                case 10:
-                    taskManager.deleteAllTasksEpicsAndSubtasks();
-                    break;
-                case 11:
-                    return;
-                default:
-                    System.out.println("Ошибка - введите число от 1 до 12");
-                    break;
-            }
-        }
-    }
+        Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
+        taskManager.makeNewTask(task);
 
-    public static void printMainMenu() {
-        System.out.println("\nВведите команду:");
-        System.out.println("1 - Вывести все Задачи, Эпики и Подзадачи");
-        System.out.println("2 - Вывести Задачу, Эпик или Подзадачу по id");
-        System.out.println("3 - Создать новую Задачу");
-        System.out.println("4 - Создать новый Эпик");
-        System.out.println("5 - Создать новую Подзадачу у Эпика");
-        System.out.println("6 - Изменить Задачу");
-        System.out.println("7 - Изменить Эпик");
-        System.out.println("8 - Изменить Подзадачу у Эпика");
-        System.out.println("9 - Удалить Задачу, Эпик или Подзадачу по id");
-        System.out.println("10 - Удалить все Задачи и Эпики с Подзадачами");
-        System.out.println("11 - ВЫХОД");
+        Task task2 = new Task("Поиграть в компик", "Включить компьютер и поиграть");
+        taskManager.makeNewTask(task2);
+
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
+        taskManager.makeNewEpic(epic);
+
+        SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 3);
+        taskManager.makeNewSubTask(subTask);
+
+        SubTask subTask2 = new SubTask("Купить мясо", "Купить мясо говядины, вырезку", 3);
+        taskManager.makeNewSubTask(subTask2);
+
+        SubTask subTask3 = new SubTask("Купить яйца", "Купить яйцо куриное, 10шт, С1", 3);
+        taskManager.makeNewSubTask(subTask3);
+
+        Epic epic2 = new Epic("Забрать жену", "Взять машину и довезти жену до дома");
+        taskManager.makeNewEpic(epic2);
+
+        SubTask subTask4 = new SubTask("Взять машину", "Дойти до гаража и взять машину", 7);
+        taskManager.makeNewSubTask(subTask4);
+
+        SubTask subTask5 = new SubTask("Довезти жену", "Доехать до работы жены и забрать ее", 7);
+        taskManager.makeNewSubTask(subTask5);
+
+        SubTask subTask6 = new SubTask("Поставить машину", "Поставить машину в гараж, вернуться", 7);
+        taskManager.makeNewSubTask(subTask6);
+
+        taskManager.printAllTasksAndEpicsWithSubtasks();
+
+        Task task3 = new Task("Поплавать", "Сходить в бассейн и поплавать", 1, StatusTypes.IN_PROGRESS);
+        taskManager.changeTask(task3);
+
+        taskManager.printTaskById(1);
+
+        Epic epic3 = new Epic("Забрать маму", "Взять машину и довезти маму до дома",
+                7, StatusTypes.IN_PROGRESS);
+        taskManager.changeEpic(epic3);
+
+        taskManager.printEpicById(7);
+
+        SubTask subTask7 = new SubTask("Купить молоко сделано", "Купить молоко Простоквашино",
+                3, 4, StatusTypes.DONE);
+        taskManager.changeSubTask(subTask7);
+
+        taskManager.printSubTaskById(4);
+
+        SubTask subTask8 = new SubTask("Купить мясо сделано", "Купить мясо говядины, вырезку",
+                3, 5, StatusTypes.DONE);
+        taskManager.changeSubTask(subTask8);
+
+        taskManager.printSubTaskById(5);
+
+        SubTask subTask9 = new SubTask("Купить яйца сделано", "Купить яйцо куриное, 10шт, С1",
+                3, 6, StatusTypes.DONE);
+        taskManager.changeSubTask(subTask9);
+
+        taskManager.printSubTaskById(6);
+
+        taskManager.printAllTasksAndEpicsWithSubtasks();
+
+        taskManager.deleteTaskById(2);
+        taskManager.deleteEpicById(3);
+        taskManager.deleteSubTaskById(10);
+
+        taskManager.printAllTasks();
+        taskManager.printAllEpics();
+        taskManager.printAllSubTasks();
+
     }
 }
