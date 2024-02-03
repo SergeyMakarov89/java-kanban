@@ -41,31 +41,35 @@ public class Main {
         Task task3 = new Task("Поплавать", "Сходить в бассейн и поплавать", 1, StatusTypes.IN_PROGRESS);
         taskManager.changeTask(task3);
 
-        taskManager.printTaskById(1);
+        System.out.println(taskManager.getTaskById(1));
 
         Epic epic3 = new Epic("Забрать маму", "Взять машину и довезти маму до дома",
-                7, StatusTypes.IN_PROGRESS);
+                7);
         taskManager.changeEpic(epic3);
 
-        taskManager.printEpicById(7);
+        System.out.println(taskManager.getEpicById(7));
 
         SubTask subTask7 = new SubTask("Купить молоко сделано", "Купить молоко Простоквашино",
                 3, 4, StatusTypes.DONE);
         taskManager.changeSubTask(subTask7);
 
-        taskManager.printSubTaskById(4);
+        System.out.println(taskManager.getSubTaskById(4));
 
         SubTask subTask8 = new SubTask("Купить мясо сделано", "Купить мясо говядины, вырезку",
                 3, 5, StatusTypes.DONE);
         taskManager.changeSubTask(subTask8);
 
-        taskManager.printSubTaskById(5);
+        System.out.println(taskManager.getSubTaskById(5));
 
         SubTask subTask9 = new SubTask("Купить яйца сделано", "Купить яйцо куриное, 10шт, С1",
                 3, 6, StatusTypes.DONE);
         taskManager.changeSubTask(subTask9);
 
-        taskManager.printSubTaskById(6);
+        SubTask subTask10 = new SubTask("Поставить машину", "Поставить машину в гараж, вернуться",
+                7, 10, StatusTypes.IN_PROGRESS);
+        taskManager.changeSubTask(subTask10);
+
+        System.out.println(taskManager.getSubTaskById(6));
 
         taskManager.printAllTasksAndEpicsWithSubtasks();
 
@@ -73,9 +77,10 @@ public class Main {
         taskManager.deleteEpicById(3);
         taskManager.deleteSubTaskById(10);
 
-        taskManager.printAllTasks();
-        taskManager.printAllEpics();
-        taskManager.printAllSubTasks();
+        System.out.println("Cписок всех Задач:\n" + taskManager.getAllTasks());
+        System.out.println("Cписок всех Эпиков:\n" + taskManager.getAllEpics());
+        System.out.println("Cписок всех Подзадач:\n" + taskManager.getAllSubTasks());
 
+        System.out.println("Cписок всех Подзадач эпика с id '7':\n" + taskManager.getAllSubTasksByEpicId(7));
     }
 }

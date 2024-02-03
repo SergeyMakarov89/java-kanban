@@ -1,6 +1,6 @@
 public class SubTask extends Task {
 
-    protected int parrentId;
+    private int parrentId;
     SubTask(String name, String discription, int parrentId) {
         super.name = name;
         super.description = discription;
