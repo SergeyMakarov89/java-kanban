@@ -82,5 +82,9 @@ public class Main {
         System.out.println("Cписок всех Подзадач:\n" + taskManager.getAllSubTasks());
 
         System.out.println("Cписок всех Подзадач эпика с id '7':\n" + taskManager.getAllSubTasksByEpicId(7));
+
+        taskManager.deleteSubTaskById(8);
+        taskManager.deleteSubTaskById(9);
+        System.out.println("Cписок всех Эпиков:\n" + taskManager.getAllEpics());
     }
 }
