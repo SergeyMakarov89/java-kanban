@@ -31,6 +31,15 @@ public class Epic extends Task {
     }
 
     public void setSubTaskList(ArrayList<Integer> subTaskList) {
+        int idToDel = 0;
+        for (Integer id : subTaskList) {
+            if (id == this.getId()) {
+                idToDel = id;
+            }
+        }
+        if (idToDel != 0) {
+            subTaskList.remove(Integer.valueOf(idToDel));
+        }
         this.subTaskList = subTaskList;
     }
 }
