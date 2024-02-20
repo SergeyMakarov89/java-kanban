@@ -6,42 +6,10 @@ import java.util.Map;
 public class InMemoryTaskManager implements TaskManager {
 
     private int numberOfTaskIds = 0;
-    private Map<Integer, Task> taskMap = new HashMap();
-    private Map<Integer, Epic> epicMap = new HashMap();
-    private Map<Integer, SubTask> subTaskMap = new HashMap();
-    private HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-
-    public HistoryManager getInMemoryHistoryManager() {
-        return inMemoryHistoryManager;
-    }
-
-    public void setInMemoryHistoryManager(InMemoryHistoryManager inMemoryHistoryManager) {
-        this.inMemoryHistoryManager = inMemoryHistoryManager;
-    }
-
-    public Map<Integer, Epic> getEpicMap() {
-        return epicMap;
-    }
-
-    public void setEpicMap(HashMap<Integer, Epic> epicMap) {
-        this.epicMap = epicMap;
-    }
-
-    public Map<Integer, Task> getTaskMap() {
-        return taskMap;
-    }
-
-    public void setTaskMap(HashMap<Integer, Task> taskMap) {
-        this.taskMap = taskMap;
-    }
-
-    public Map<Integer, SubTask> getSubTaskMap() {
-        return subTaskMap;
-    }
-
-    public void setSubTaskMap(Map<Integer, SubTask> subTaskMap) {
-        this.subTaskMap = subTaskMap;
-    }
+    protected Map<Integer, Task> taskMap = new HashMap();
+    protected Map<Integer, Epic> epicMap = new HashMap();
+    protected Map<Integer, SubTask> subTaskMap = new HashMap();
+    private HistoryManager inMemoryHistoryManager = Managers.makeInMemoryHistoryManager();
 
     @Override
     public void makeNewTask(Task task) {
@@ -272,7 +240,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Integer> getAllSubTasksByEpicId(int epicId) {
+    public List<Integer> getAllSubTasksByEpicId(int epicId) {
         return epicMap.get(epicId).getSubTaskList();
     }
 

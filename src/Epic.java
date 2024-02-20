@@ -31,13 +31,7 @@ public class Epic extends Task {
     }
 
     public void setSubTaskList(ArrayList<Integer> subTaskList) {
-        int idToDel = 0;
         if (subTaskList.contains(this.getId())) {
-            idToDel = id;
-
-        }
-        if (idToDel != 0) {
-            subTaskList.remove(Integer.valueOf(idToDel));
             System.out.println("id Эпика не может быть добавлен в список Подзадач этого же Эпика");
             return;
         }
