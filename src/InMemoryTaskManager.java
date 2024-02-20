@@ -1,17 +1,50 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    int numberOfTaskIds = 0;
-    HashMap<Integer, Task> taskMap = new HashMap();
-    HashMap<Integer, Epic> epicMap = new HashMap();
-    HashMap<Integer, SubTask> subTaskMap = new HashMap();
-    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+    private int numberOfTaskIds = 0;
+    private Map<Integer, Task> taskMap = new HashMap();
+    private Map<Integer, Epic> epicMap = new HashMap();
+    private Map<Integer, SubTask> subTaskMap = new HashMap();
+    private HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+
+    public HistoryManager getInMemoryHistoryManager() {
+        return inMemoryHistoryManager;
+    }
+
+    public void setInMemoryHistoryManager(InMemoryHistoryManager inMemoryHistoryManager) {
+        this.inMemoryHistoryManager = inMemoryHistoryManager;
+    }
+
+    public Map<Integer, Epic> getEpicMap() {
+        return epicMap;
+    }
+
+    public void setEpicMap(HashMap<Integer, Epic> epicMap) {
+        this.epicMap = epicMap;
+    }
+
+    public Map<Integer, Task> getTaskMap() {
+        return taskMap;
+    }
+
+    public void setTaskMap(HashMap<Integer, Task> taskMap) {
+        this.taskMap = taskMap;
+    }
+
+    public Map<Integer, SubTask> getSubTaskMap() {
+        return subTaskMap;
+    }
+
+    public void setSubTaskMap(Map<Integer, SubTask> subTaskMap) {
+        this.subTaskMap = subTaskMap;
+    }
 
     @Override
-    public Integer makeNewTask(Task task) {
+    public void makeNewTask(Task task) {
 
         numberOfTaskIds++;
 
@@ -19,22 +52,20 @@ public class InMemoryTaskManager implements TaskManager {
 
         taskMap.put(numberOfTaskIds, task);
         System.out.println("Задача с названием: '" + task.name + "' успешно создана.");
-        return numberOfTaskIds;
     }
 
     @Override
-    public Integer makeNewEpic(Epic epic) {
+    public void makeNewEpic(Epic epic) {
 
         numberOfTaskIds++;
 
         epic.setId(numberOfTaskIds);
         epicMap.put(numberOfTaskIds, epic);
         System.out.println("Эпик с названием: '" + epic.name + "' успешно создан.");
-        return numberOfTaskIds;
     }
 
     @Override
-    public Integer makeNewSubTask(SubTask subTask) {
+    public void makeNewSubTask(SubTask subTask) {
         if (epicMap.isEmpty()) {
             System.out.println("Создание новой Подазачи невозможно, так как отсутсвтуют Эпики. Создайте Эпик.");
         } else {
@@ -49,11 +80,9 @@ public class InMemoryTaskManager implements TaskManager {
                     System.out.println("Подзадача с названием: '" + subTask.name + "' успешно создана.");
                 } else {
                     System.out.println("Ошибка - введите корректный id");
-                    return -1;
                 }
 
         }
-        return numberOfTaskIds;
     }
 
     @Override
@@ -247,5 +276,8 @@ public class InMemoryTaskManager implements TaskManager {
         return epicMap.get(epicId).getSubTaskList();
     }
 
-
+    @Override
+    public List<Task> getHistory() {
+        return inMemoryHistoryManager.getHistory();
+    }
 }

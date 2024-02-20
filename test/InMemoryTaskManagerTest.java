@@ -16,7 +16,7 @@ class InMemoryTaskManagerTest {
         Task task1 = new Task("Погулять", "Выйти на улицу и прогуляться");
         inMemoryTaskManager.makeNewTask(task1);
 
-        Task task2 = inMemoryTaskManager.taskMap.get(1);
+        Task task2 = inMemoryTaskManager.getTaskMap().get(1);
 
         assertEquals(task2, task1, "Задачи не совпадают.");
     }
@@ -27,7 +27,7 @@ class InMemoryTaskManagerTest {
         Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic1);
 
-        Epic epic2 = inMemoryTaskManager.epicMap.get(1);
+        Epic epic2 = inMemoryTaskManager.getEpicMap().get(1);
 
         assertEquals(epic2, epic1, "Эпики не совпадают.");
     }
@@ -59,7 +59,7 @@ class InMemoryTaskManagerTest {
 
         SubTask subTask = new SubTask("Купить мясо", "Купить мясо говядины, вырезку", 2);
 
-        assertEquals(-1, inMemoryTaskManager.makeNewSubTask(subTask));
+        assertNull(inMemoryTaskManager.getSubTaskMap().get(2));
 
 
     }
@@ -68,25 +68,24 @@ class InMemoryTaskManagerTest {
     void canMakeAndFindTaskEpicAndSubTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
-        assertEquals(1, inMemoryTaskManager.makeNewTask(task));
+        inMemoryTaskManager.makeNewTask(task);
+        assertEquals(1, inMemoryTaskManager.getTaskMap().get(1).getId());
 
         Task task2 = new Task("Поиграть в компик", "Включить компьютер и поиграть");
-        assertEquals(2, inMemoryTaskManager.makeNewTask(task2));
+        inMemoryTaskManager.makeNewTask(task2);
+        assertEquals(2, inMemoryTaskManager.getTaskMap().get(2).getId());
 
         Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
-        assertEquals(3, inMemoryTaskManager.makeNewEpic(epic));
+        inMemoryTaskManager.makeNewEpic(epic);
+        assertEquals(3, inMemoryTaskManager.getEpicMap().get(3).getId());
 
         SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 3);
-        assertEquals(4, inMemoryTaskManager.makeNewSubTask(subTask));
+        inMemoryTaskManager.makeNewSubTask(subTask);
+        assertEquals(4, inMemoryTaskManager.getSubTaskMap().get(4).getId());
 
         SubTask subTask2 = new SubTask("Купить мясо", "Купить мясо говядины, вырезку", 3);
-        assertEquals(5, inMemoryTaskManager.makeNewSubTask(subTask2));
-
-        assertEquals(task, inMemoryTaskManager.getTaskById(1));
-        assertEquals(task2, inMemoryTaskManager.getTaskById(2));
-        assertEquals(epic, inMemoryTaskManager.getEpicById(3));
-        assertEquals(subTask, inMemoryTaskManager.getSubTaskById(4));
-        assertEquals(subTask2, inMemoryTaskManager.getSubTaskById(5));
+        inMemoryTaskManager.makeNewSubTask(subTask2);
+        assertEquals(5, inMemoryTaskManager.getSubTaskMap().get(5).getId());
     }
 
     @Test
@@ -233,5 +232,44 @@ class InMemoryTaskManagerTest {
         inMemoryTaskManager.changeSubTask(subTask2);
 
         assertEquals(StatusTypes.IN_PROGRESS, inMemoryTaskManager.getEpicById(1).getStatus());
+    }
+
+    @Test
+    void inMemoryTaskManagerSaveTaskEpicOrSubTask() {
+
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
+        inMemoryTaskManager.makeNewTask(task);
+        assertEquals(1, inMemoryTaskManager.getTaskMap().get(1).getId());
+
+        Task task2 = new Task("Поиграть в компик", "Включить компьютер и поиграть");
+        inMemoryTaskManager.makeNewTask(task2);
+        assertEquals(2, inMemoryTaskManager.getTaskMap().get(2).getId());
+
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
+        inMemoryTaskManager.makeNewEpic(epic);
+        assertEquals(3, inMemoryTaskManager.getEpicMap().get(3).getId());
+
+        SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 3);
+        inMemoryTaskManager.makeNewSubTask(subTask);
+        assertEquals(4, inMemoryTaskManager.getSubTaskMap().get(4).getId());
+
+        SubTask subTask2 = new SubTask("Купить мясо", "Купить мясо говядины, вырезку", 3);
+        inMemoryTaskManager.makeNewSubTask(subTask2);
+        assertEquals(5, inMemoryTaskManager.getSubTaskMap().get(5).getId());
+
+        inMemoryTaskManager.getTaskById(1);
+        inMemoryTaskManager.getTaskById(2);
+        inMemoryTaskManager.getEpicById(3);
+        inMemoryTaskManager.getSubTaskById(4);
+        inMemoryTaskManager.getSubTaskById(5);
+
+        List<Task> history = inMemoryTaskManager.getHistory();
+
+        assertEquals(task, history.get(0));
+        assertEquals(task2, history.get(1));
+        assertEquals(epic, history.get(2));
+        assertEquals(subTask, history.get(3));
+        assertEquals(subTask2, history.get(4));
     }
 }

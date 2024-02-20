@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
-    Integer makeNewTask(Task task);
+    void makeNewTask(Task task);
 
-    Integer makeNewEpic(Epic epic);
+    void makeNewEpic(Epic epic);
 
-    Integer makeNewSubTask(SubTask subTask);
+    void makeNewSubTask(SubTask subTask);
 
     void changeTask(Task task);
 
@@ -35,5 +35,7 @@ public interface TaskManager {
     List<SubTask> getAllSubTasks();
 
     ArrayList<Integer> getAllSubTasksByEpicId(int epicId);
+
+    List<Task> getHistory();
 
 }

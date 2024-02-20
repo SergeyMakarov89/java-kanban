@@ -7,4 +7,9 @@ class ManagersTest {
     void ManagersReturnInMemoryTaskManager() {
         assertTrue(Managers.makeInMemoryTaskManager() instanceof InMemoryTaskManager);
     }
+
+    @Test
+    void ManagersReturnInMemoryHistoryManager() {
+        assertTrue(Managers.makeInMemoryHistoryManager() instanceof InMemoryHistoryManager);
+    }
 }
