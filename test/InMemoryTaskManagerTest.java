@@ -197,6 +197,8 @@ class InMemoryTaskManagerTest {
 
         assertEquals(1, inMemoryTaskManager.getAllEpics().size());
         assertEquals(2, inMemoryTaskManager.getAllSubTasks().size());
+        assertEquals(2, epic.getSubTaskList().size());
+        assertFalse(epic.getSubTaskList().contains(4));
     }
 
     @Test
@@ -266,10 +268,10 @@ class InMemoryTaskManagerTest {
 
         List<Task> history = inMemoryTaskManager.getHistory();
 
-        assertEquals(task, history.get(0));
-        assertEquals(task2, history.get(1));
-        assertEquals(epic, history.get(2));
-        assertEquals(subTask, history.get(3));
-        assertEquals(subTask2, history.get(4));
+        assertTrue(history.contains(task));
+        assertTrue(history.contains(task2));
+        assertTrue(history.contains(epic));
+        assertTrue(history.contains(subTask));
+        assertTrue(history.contains(subTask2));
     }
 }

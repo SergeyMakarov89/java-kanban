@@ -28,7 +28,4 @@ public class SubTask extends Task {
         return parrentId;
     }
 
-    public void setParrentId(int parrentId) {
-        this.parrentId = parrentId;
-    }
 }
