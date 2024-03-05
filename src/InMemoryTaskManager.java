@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.LinkedHashMap;
@@ -179,7 +178,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         for (Integer i : epicMap.get(epicId).getSubTaskList()) {
-            if (subTaskMap.get(i).getStatus() == StatusTypes.NEW ) {
+            if (subTaskMap.get(i).getStatus() == StatusTypes.NEW) {
                 newSubtaskStatusCount++;
                 if (newSubtaskStatusCount == epicMap.get(epicId).getSubTaskList().size()) {
                     Epic epic = epicMap.get(epicId);
