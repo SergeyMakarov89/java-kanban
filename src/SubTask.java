@@ -1,6 +1,7 @@
 public class SubTask extends Task {
 
     private int parrentId;
+
     SubTask(String name, String discription, int parrentId) {
         super.name = name;
         super.description = discription;
@@ -16,6 +17,7 @@ public class SubTask extends Task {
         this.status = statusTypes;
 
     }
+
     @Override
     public String toString() {
         return "Подзадача:'" + name +
