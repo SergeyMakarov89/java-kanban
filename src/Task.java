@@ -7,6 +7,7 @@ public class Task {
     public Task() {
 
     }
+
     public Task(String name, String discription) {
         this.name = name;
         this.description = discription;
