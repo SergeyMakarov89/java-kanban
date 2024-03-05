@@ -22,7 +22,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             taskMapHistory.put(task.getId(), newNode);
         }
     }
-    
+
     public void remove(int id) {
         if (taskMapHistory.get(id) != null) {
             removeNode(taskMapHistory.get(id));
