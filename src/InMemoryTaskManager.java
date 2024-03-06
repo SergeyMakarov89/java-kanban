@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
 
     private int numberOfTaskIds = 0;
-    protected Map<Integer, Task> taskMap = new LinkedHashMap<>();
-    protected Map<Integer, Epic> epicMap = new LinkedHashMap<>();
-    protected Map<Integer, SubTask> subTaskMap = new LinkedHashMap<>();
+    protected Map<Integer, Task> taskMap = new HashMap<>();
+    protected Map<Integer, Epic> epicMap = new HashMap<>();
+    protected Map<Integer, SubTask> subTaskMap = new HashMap<>();
     private HistoryManager inMemoryHistoryManager = Managers.makeInMemoryHistoryManager();
 
     @Override

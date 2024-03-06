@@ -30,22 +30,23 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     public void removeNode(Node<Task> node) {
-        Node<Task> next = node.next;
-        Node<Task> prev = node.prev;
-        node.data = null;
+        Node<Task> next = node.getNext();
+        Node<Task> prev = node.getPrev();
         if (head == node && tail == node) {
             head = null;
             tail = null;
         } else if (head == node) {
             head = next;
-            head.prev = null;
+            head.setPrev(null);
         } else if (tail == node) {
             tail = prev;
-            tail.next = null;
+            tail.setNext(null);
         } else {
-            next.prev = prev;
-            prev.next = next;
+            next.setPrev(prev);
+            prev.setNext(next);
         }
+        taskMapHistory.remove(node.getData().getId());
+        node.setData(null);
     }
 
     @Override
@@ -64,32 +65,10 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getTasks() {
         List<Task> taskList = new ArrayList<>();
         Node<Task> node = head;
-        while (!(node == null)) {
+        while (node != null) {
             taskList.add(node.getData());
-            node = node.next;
+            node = node.getNext();
         }
         return taskList;
     }
-
-    public class Node<T> {
-        public T data;
-        public Node<T> next;
-        public Node<T> prev;
-
-        public  Node(Node<T> prev, T data, Node<T> next) {
-            this.prev = prev;
-            this.data = data;
-            this.next = next;
-
-        }
-
-        public T getData() {
-            return data;
-        }
-
-        public void setPrev(Node<T> prev) {
-            this.prev = prev;
-        }
-    }
-
 }
