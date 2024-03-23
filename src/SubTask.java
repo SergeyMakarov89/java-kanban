@@ -26,6 +26,7 @@ public class SubTask extends Task {
         this.status = statusTypes;
         this.parrentId = parrentId;
     }
+
     @Override
     public String toString() {
         return "Подзадача:'" + name +
@@ -33,6 +34,7 @@ public class SubTask extends Task {
                 "', С описанием:'" + description +
                 "', C текущим статусом:'" + status + "'";
     }
+
     @Override
     public String toStringToFile() {
         return id + "," + type + "," + name + "," +
