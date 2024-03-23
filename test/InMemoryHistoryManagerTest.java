@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryHistoryManagerTest {
 
     @Test
-    void historyManagerSaveTaskEpicOrSubTask() {
+    void historyManagerSaveTaskEpicOrSubTask() throws IOException, ManagerSaveException {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
@@ -47,7 +48,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void historyManagerCanDeleteElementInHistory() {
+    void historyManagerCanDeleteElementInHistory() throws IOException, ManagerSaveException {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
@@ -64,7 +65,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void historyManagerDeleteTaskEpicOrSubTask() {
+    void historyManagerDeleteTaskEpicOrSubTask() throws IOException, ManagerSaveException {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");

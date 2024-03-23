@@ -4,6 +4,8 @@ public class Task {
     protected String description;
     protected StatusTypes status;
 
+    protected Types type;
+
     public Task() {
 
     }
@@ -12,6 +14,7 @@ public class Task {
         this.name = name;
         this.description = discription;
         this.status = StatusTypes.NEW;
+        this.type = Types.TASK;
     }
 
     public Task(String name, String discription, int id, StatusTypes statusTypes) {
@@ -21,12 +24,18 @@ public class Task {
         this.status = statusTypes;
     }
 
+
     @Override
     public String toString() {
         return "Задача:'" + name +
                 "', id:'" + id +
                 "', С описанием:'" + description +
                 "', C текущим статусом:'" + status + "'";
+    }
+
+    public String toStringToFile() {
+        return id + "," + type + "," + name + "," +
+                status + "," + description;
     }
 
     public int getId() {
