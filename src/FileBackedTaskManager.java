@@ -1,8 +1,4 @@
-import javax.imageio.IIOException;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class FileBackedTaskManager extends InMemoryTaskManager  {
@@ -11,11 +7,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager  {
         super.makeNewTask(task);
         save();
     }
+
     @Override
     public void makeNewEpic(Epic epic) throws IOException, ManagerSaveException {
         super.makeNewEpic(epic);
         save();
     }
+
     @Override
     public void makeNewSubTask(SubTask subTask) throws IOException, ManagerSaveException {
         super.makeNewSubTask(subTask);
@@ -27,6 +25,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager  {
         super.changeTask(task);
         save();
     }
+
     @Override
     public void changeEpic(Epic epic) throws IOException, ManagerSaveException {
         super.changeEpic(epic);
@@ -38,6 +37,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager  {
         super.changeSubTask(subTask);
         save();
     }
+
     @Override
     public void deleteTaskById(int removingId) throws IOException, ManagerSaveException {
         super.deleteTaskById(removingId);
@@ -74,7 +74,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager  {
                     fileWriter.write("\n" + subTask.toStringToFile());
                 }
             }
-
         }
         catch (IOException e) {
             throw new ManagerSaveException("Ошибка сохранения");
