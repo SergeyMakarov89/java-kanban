@@ -74,8 +74,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager  {
                     fileWriter.write("\n" + subTask.toStringToFile());
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ManagerSaveException("Ошибка сохранения");
         }
     }
