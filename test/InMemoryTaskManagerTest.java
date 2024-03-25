@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest {
 
     @Test
-    void taskEqualsTaskById() throws IOException, ManagerSaveException {
+    void taskEqualsTaskById() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task1 = new Task("Погулять", "Выйти на улицу и прогуляться");
         inMemoryTaskManager.makeNewTask(task1);
@@ -23,7 +23,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void epicEqualsEpicById() throws IOException, ManagerSaveException {
+    void epicEqualsEpicById() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic1);
@@ -34,7 +34,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void epicCanNotAddItselfIntoEpicAsSubtask() throws IOException, ManagerSaveException {
+    void epicCanNotAddItselfIntoEpicAsSubtask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
@@ -53,7 +53,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void subTaskCanNotBeAsItselfEpic() throws IOException, ManagerSaveException {
+    void subTaskCanNotBeAsItselfEpic() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
@@ -66,7 +66,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canMakeAndFindTaskEpicAndSubTask() throws IOException, ManagerSaveException {
+    void canMakeAndFindTaskEpicAndSubTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
         inMemoryTaskManager.makeNewTask(task);
@@ -90,7 +90,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canChangeTask() throws IOException, ManagerSaveException {
+    void canChangeTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task1 = new Task("Погулять", "Выйти на улицу и прогуляться");
         inMemoryTaskManager.makeNewTask(task1);
@@ -102,7 +102,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canChangeEpic() throws IOException, ManagerSaveException {
+    void canChangeEpic() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic1);
@@ -114,7 +114,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canChangeSubTask() throws IOException, ManagerSaveException {
+    void canChangeSubTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic1);
@@ -130,7 +130,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canDeleteTask() throws IOException, ManagerSaveException {
+    void canDeleteTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task1 = new Task("Погулять", "Выйти на улицу и прогуляться");
         inMemoryTaskManager.makeNewTask(task1);
@@ -144,7 +144,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canDeleteEpic() throws IOException, ManagerSaveException {
+    void canDeleteEpic() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
         Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
@@ -178,7 +178,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canDeleteSubTask() throws IOException, ManagerSaveException {
+    void canDeleteSubTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
         Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
@@ -203,7 +203,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canGetAllSubTasksByEpicId() throws IOException, ManagerSaveException {
+    void canGetAllSubTasksByEpicId() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
         Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
@@ -222,7 +222,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void canUpdateStatusEpic() throws IOException, ManagerSaveException {
+    void canUpdateStatusEpic() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic1);
@@ -238,7 +238,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void inMemoryTaskManagerSaveTaskEpicOrSubTask() throws IOException, ManagerSaveException {
+    void inMemoryTaskManagerSaveTaskEpicOrSubTask() {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");

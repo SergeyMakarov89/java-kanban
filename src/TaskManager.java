@@ -2,23 +2,23 @@ import java.io.IOException;
 import java.util.List;
 
 public interface TaskManager {
-    void makeNewTask(Task task) throws IOException, ManagerSaveException;
+    void makeNewTask(Task task);
 
-    void makeNewEpic(Epic epic) throws IOException, ManagerSaveException;
+    void makeNewEpic(Epic epic);
 
-    void makeNewSubTask(SubTask subTask) throws IOException, ManagerSaveException;
+    void makeNewSubTask(SubTask subTask);
 
-    void changeTask(Task task) throws IOException, ManagerSaveException;
+    void changeTask(Task task);
 
-    void changeEpic(Epic epic) throws IOException, ManagerSaveException;
+    void changeEpic(Epic epic);
 
-    void changeSubTask(SubTask subTask) throws IOException, ManagerSaveException;
+    void changeSubTask(SubTask subTask);
 
-    void deleteTaskById(int removingId) throws IOException, ManagerSaveException;
+    void deleteTaskById(int removingId);
 
-    void deleteEpicById(int removingId) throws IOException, ManagerSaveException;
+    void deleteEpicById(int removingId);
 
-    void deleteSubTaskById(int removingId) throws IOException, ManagerSaveException;
+    void deleteSubTaskById(int removingId);
 
     void updateStatusEpic(int epicId);
 

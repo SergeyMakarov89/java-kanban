@@ -1,62 +1,84 @@
 import java.io.*;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
-public class FileBackedTaskManager extends InMemoryTaskManager  {
+public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
-    public void makeNewTask(Task task) throws IOException, ManagerSaveException {
+    public void makeNewTask(Task task) {
         super.makeNewTask(task);
         save();
     }
 
     @Override
-    public void makeNewEpic(Epic epic) throws IOException, ManagerSaveException {
+    public void makeNewEpic(Epic epic) {
         super.makeNewEpic(epic);
         save();
     }
 
     @Override
-    public void makeNewSubTask(SubTask subTask) throws IOException, ManagerSaveException {
+    public void makeNewSubTask(SubTask subTask) {
         super.makeNewSubTask(subTask);
         save();
     }
 
     @Override
-    public void changeTask(Task task) throws IOException, ManagerSaveException {
+    public void changeTask(Task task) {
         super.changeTask(task);
         save();
     }
 
     @Override
-    public void changeEpic(Epic epic) throws IOException, ManagerSaveException {
+    public void changeEpic(Epic epic) {
         super.changeEpic(epic);
         save();
     }
 
     @Override
-    public void changeSubTask(SubTask subTask) throws IOException, ManagerSaveException {
+    public void changeSubTask(SubTask subTask) {
         super.changeSubTask(subTask);
         save();
     }
 
     @Override
-    public void deleteTaskById(int removingId) throws IOException, ManagerSaveException {
+    public void deleteTaskById(int removingId) {
         super.deleteTaskById(removingId);
         save();
     }
 
     @Override
-    public void deleteEpicById(int removingId) throws IOException, ManagerSaveException {
+    public void deleteEpicById(int removingId) {
         super.deleteEpicById(removingId);
         save();
     }
 
     @Override
-    public void deleteSubTaskById(int removingId) throws IOException, ManagerSaveException {
+    public void deleteSubTaskById(int removingId) {
         super.deleteSubTaskById(removingId);
         save();
     }
 
-    public void save() throws IOException, ManagerSaveException {
+    @Override
+    public Task getTaskById(int id) {
+        inMemoryHistoryManager.add(taskMap.get(id));
+        save();
+        return taskMap.get(id);
+    }
+
+    @Override
+    public Epic getEpicById(int id) {
+        inMemoryHistoryManager.add(epicMap.get(id));
+        save();
+        return epicMap.get(id);
+    }
+
+    @Override
+    public SubTask getSubTaskById(int id) {
+        inMemoryHistoryManager.add(subTaskMap.get(id));
+        save();
+        return subTaskMap.get(id);
+    }
+
+    public void save() {
         try (Writer fileWriter = new FileWriter("C:\\Users\\1\\Videos\\java-kanban\\test.csv")) {
             fileWriter.write("id,type,name,status,description,epic");
             if (!taskMap.isEmpty()) {
@@ -74,12 +96,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager  {
                     fileWriter.write("\n" + subTask.toStringToFile());
                 }
             }
+            if (inMemoryHistoryManager.getHistory() != null) {
+                fileWriter.write("\n");
+                for (int i = 0; i < inMemoryHistoryManager.getHistory().size(); i++) {
+                    if (i == inMemoryHistoryManager.getHistory().size() - 1) {
+                        int lastId = inMemoryHistoryManager.getHistory().get(i).getId();
+                        fileWriter.write(Integer.toString(lastId));
+                    } else {
+                        fileWriter.write(inMemoryHistoryManager.getHistory().get(i).getId() + ",");
+                    }
+                }
+
+            }
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка сохранения");
         }
     }
 
-    public void loadFromFile() throws IOException {
+    public void loadFromFile() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("test.csv"))) {
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
@@ -93,13 +127,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager  {
                 } else if (subStrings[1].equals("SUBTASK")) {
                     SubTask subTask = new SubTask(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), Integer.parseInt(subStrings[5]));
                     subTaskMap.put(Integer.parseInt(subStrings[0]), subTask);
-                    ArrayList<Integer> newSubTaskList = epicMap.get(Integer.parseInt(subStrings[5])).getSubTaskList();
-                    newSubTaskList.add(Integer.parseInt(subStrings[0]));
-                    epicMap.get(Integer.parseInt(subStrings[5])).setSubTaskList(newSubTaskList);
+                    epicMap.get(Integer.parseInt(subStrings[5])).getSubTaskList().add(Integer.parseInt(subStrings[0]));
+                } else if (!(subStrings[1].equals("type"))) {
+                    Collections.reverse(Arrays.asList(subStrings));
+                    for (String subString : subStrings) {
+                        int i = Integer.parseInt(subString);
+                        if (taskMap.containsKey(i)) {
+                            inMemoryHistoryManager.add(taskMap.get(i));
+                        } else if (epicMap.containsKey(i)) {
+                            inMemoryHistoryManager.add(epicMap.get(i));
+                        } else if (subTaskMap.containsKey(i)) {
+                            inMemoryHistoryManager.add(subTaskMap.get(i));
+                        }
+                    }
                 }
             }
         } catch (IOException e) {
-            System.out.println("Ошибка загрузки");
+            throw new ManagerSaveException("Ошибка сохранения");
         }
     }
 }

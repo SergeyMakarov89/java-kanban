@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryHistoryManagerTest {
 
     @Test
-    void historyManagerSaveTaskEpicOrSubTask() throws IOException, ManagerSaveException {
+    void historyManagerSaveTaskEpicOrSubTask() {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
@@ -48,7 +48,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void historyManagerCanDeleteElementInHistory() throws IOException, ManagerSaveException {
+    void historyManagerCanDeleteElementInHistory() {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
@@ -65,7 +65,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void historyManagerDeleteTaskEpicOrSubTask() throws IOException, ManagerSaveException {
+    void historyManagerDeleteTaskEpicOrSubTask() {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");

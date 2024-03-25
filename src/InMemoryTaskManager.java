@@ -10,10 +10,10 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> taskMap = new HashMap<>();
     protected Map<Integer, Epic> epicMap = new HashMap<>();
     protected Map<Integer, SubTask> subTaskMap = new HashMap<>();
-    private HistoryManager inMemoryHistoryManager = Managers.makeInMemoryHistoryManager();
+    protected HistoryManager inMemoryHistoryManager = Managers.makeInMemoryHistoryManager();
 
     @Override
-    public void makeNewTask(Task task) throws IOException, ManagerSaveException {
+    public void makeNewTask(Task task) {
 
         numberOfTaskIds++;
 
@@ -24,7 +24,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void makeNewEpic(Epic epic) throws IOException, ManagerSaveException {
+    public void makeNewEpic(Epic epic) {
 
         numberOfTaskIds++;
 
@@ -34,7 +34,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void makeNewSubTask(SubTask subTask) throws IOException, ManagerSaveException {
+    public void makeNewSubTask(SubTask subTask) {
         if (epicMap.isEmpty()) {
             System.out.println("Создание новой Подазачи невозможно, так как отсутсвтуют Эпики. Создайте Эпик.");
         } else {
@@ -55,7 +55,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void changeTask(Task task) throws IOException, ManagerSaveException {
+    public void changeTask(Task task) {
 
         if (taskMap.isEmpty()) {
             System.out.println("Изменение невозможно, список Задач пуст.\nСоздайте Задачу.");
@@ -70,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void changeEpic(Epic epic) throws IOException, ManagerSaveException {
+    public void changeEpic(Epic epic) {
 
         if (epicMap.isEmpty()) {
             System.out.println("Изменение невозможно, список Эпиков пуст.\nСоздайте Эпик.");
@@ -88,7 +88,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void changeSubTask(SubTask subTask) throws IOException, ManagerSaveException {
+    public void changeSubTask(SubTask subTask) {
         Epic epic = null;
 
         if (epicMap.isEmpty()) {
@@ -110,7 +110,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteTaskById(int removingId) throws IOException, ManagerSaveException {
+    public void deleteTaskById(int removingId) {
 
         if (taskMap.isEmpty()) {
             System.out.println("Удаление невозможно, список Задач пуст.");
@@ -126,7 +126,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteEpicById(int removingId) throws IOException, ManagerSaveException {
+    public void deleteEpicById(int removingId) {
 
         if (epicMap.isEmpty()) {
             System.out.println("Удаление невозможно, список Эпиков пуст.");
@@ -146,7 +146,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteSubTaskById(int removingId) throws IOException, ManagerSaveException {
+    public void deleteSubTaskById(int removingId) {
 
         if (subTaskMap.isEmpty()) {
             System.out.println("Удаление невозможно, список Подзадач пуст.");
