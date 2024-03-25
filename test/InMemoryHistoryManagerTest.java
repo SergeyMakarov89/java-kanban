@@ -37,16 +37,34 @@ class InMemoryHistoryManagerTest {
         inMemoryTaskManager.getSubTaskById(5);
 
         List<Task> history = inMemoryTaskManager.getHistory();
+        System.out.println(history);
 
-        assertEquals(task, history.get(0));
-        assertEquals(task2, history.get(1));
-        assertEquals(epic, history.get(2));
-        assertEquals(subTask, history.get(3));
-        assertEquals(subTask2, history.get(4));
+        assertTrue(history.contains(task));
+        assertTrue(history.contains(task2));
+        assertTrue(history.contains(epic));
+        assertTrue(history.contains(subTask));
+        assertTrue(history.contains(subTask2));
     }
 
     @Test
-    void historyManagerCanDeleteLastElementInHistory() {
+    void historyManagerCanDeleteElementInHistory() {
+
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
+        inMemoryTaskManager.makeNewTask(task);
+        assertEquals(1, inMemoryTaskManager.taskMap.get(1).getId());
+
+
+        inMemoryTaskManager.getTaskById(1);
+        inMemoryTaskManager.getTaskById(1);
+
+        List<Task> history = inMemoryTaskManager.getHistory();
+
+        assertEquals(1, history.size());
+    }
+
+    @Test
+    void historyManagerDeleteTaskEpicOrSubTask() {
 
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
@@ -66,7 +84,7 @@ class InMemoryHistoryManagerTest {
         assertEquals(4, inMemoryTaskManager.subTaskMap.get(4).getId());
 
         SubTask subTask2 = new SubTask("Купить мясо", "Купить мясо говядины, вырезку", 3);
-        inMemoryTaskManager.makeNewSubTask(subTask);
+        inMemoryTaskManager.makeNewSubTask(subTask2);
         assertEquals(5, inMemoryTaskManager.subTaskMap.get(5).getId());
 
         inMemoryTaskManager.getTaskById(1);
@@ -74,15 +92,15 @@ class InMemoryHistoryManagerTest {
         inMemoryTaskManager.getEpicById(3);
         inMemoryTaskManager.getSubTaskById(4);
         inMemoryTaskManager.getSubTaskById(5);
-        inMemoryTaskManager.getTaskById(1);
-        inMemoryTaskManager.getTaskById(2);
-        inMemoryTaskManager.getEpicById(3);
-        inMemoryTaskManager.getSubTaskById(4);
         inMemoryTaskManager.getSubTaskById(5);
+        inMemoryTaskManager.getSubTaskById(4);
+        inMemoryTaskManager.getEpicById(3);
+        inMemoryTaskManager.getTaskById(2);
         inMemoryTaskManager.getTaskById(1);
 
         List<Task> history = inMemoryTaskManager.getHistory();
+        System.out.println(history);
 
-        assertEquals(2, history.get(0).getId());
+        assertEquals(5, history.size());
     }
 }

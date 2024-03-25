@@ -7,6 +7,7 @@ public class Task {
     public Task() {
 
     }
+
     public Task(String name, String discription) {
         this.name = name;
         this.description = discription;
@@ -28,29 +29,15 @@ public class Task {
                 "', C текущим статусом:'" + status + "'";
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getId() {
         return id;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
     public StatusTypes getStatus() {
         return status;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String discription) {
-        this.description = discription;
-    }
 
     public void setId(int id) {
         this.id = id;
