@@ -1,8 +1,18 @@
 import java.io.*;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
+    String path;
+
+    public FileBackedTaskManager() {
+
+    }
+
+    public FileBackedTaskManager(String path) {
+        this.path = path;
+    }
     @Override
     public void makeNewTask(Task task) {
         super.makeNewTask(task);
@@ -79,7 +89,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void save() {
-        try (Writer fileWriter = new FileWriter("C:\\Users\\1\\Videos\\java-kanban\\test.csv")) {
+        try (Writer fileWriter = new FileWriter(path)) {
             fileWriter.write("id,type,name,status,description,epic");
             if (!taskMap.isEmpty()) {
                 for (Task task : taskMap.values()) {
@@ -109,12 +119,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
             }
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка сохранения");
+            throw new ManagerSaveException();
         }
     }
 
-    public void loadFromFile() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("test.csv"))) {
+    public void loadFromFile(String path) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
                 String[] subStrings = line.split(",");
@@ -143,7 +153,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка сохранения");
+            throw new ManagerSaveException();
         }
     }
 }

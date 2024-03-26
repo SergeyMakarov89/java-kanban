@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileBackedTaskManagerTest {
     @Test
     void loadFromFileTest() {
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager();
+        String path = "C:\\Users\\1\\Videos\\java-kanban\\test.csv";
+        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
 
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
         fileBackedTaskManager.makeNewTask(task);
@@ -69,7 +70,7 @@ class FileBackedTaskManagerTest {
         fileBackedTaskManager.deleteEpicById(3);
 
 
-        fileBackedTaskManager.loadFromFile();
+        fileBackedTaskManager.loadFromFile(path);
 
         assertNotNull(fileBackedTaskManager.getAllTasks());
         assertNotNull(fileBackedTaskManager.getAllEpics());
@@ -79,7 +80,8 @@ class FileBackedTaskManagerTest {
 
     @Test
     void saveTest() {
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager();
+        String path = "C:\\Users\\1\\Videos\\java-kanban\\test.csv";
+        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
 
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");
         fileBackedTaskManager.makeNewTask(task);
@@ -96,7 +98,7 @@ class FileBackedTaskManagerTest {
         SubTask subTask2 = new SubTask("Купить мясо", "Купить мясо говядины", 3);
         fileBackedTaskManager.makeNewSubTask(subTask2);
 
-        fileBackedTaskManager.loadFromFile();
+        fileBackedTaskManager.loadFromFile(path);
 
         assertNotNull(fileBackedTaskManager.getAllTasks());
         assertNotNull(fileBackedTaskManager.getAllEpics());
