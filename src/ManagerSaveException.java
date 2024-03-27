@@ -1,5 +1,5 @@
 public class ManagerSaveException extends RuntimeException {
-    public ManagerSaveException() {
-        super("Ошибка сохранения");
+    public ManagerSaveException(String massage, Throwable cause) {
+        super(massage, cause);
     }
 }
