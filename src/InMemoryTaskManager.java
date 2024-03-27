@@ -9,7 +9,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> taskMap = new HashMap<>();
     protected Map<Integer, Epic> epicMap = new HashMap<>();
     protected Map<Integer, SubTask> subTaskMap = new HashMap<>();
-    private HistoryManager inMemoryHistoryManager = Managers.makeInMemoryHistoryManager();
+    protected HistoryManager inMemoryHistoryManager = Managers.makeInMemoryHistoryManager();
 
     @Override
     public void makeNewTask(Task task) {
