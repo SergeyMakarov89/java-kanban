@@ -45,6 +45,8 @@ public class InMemoryTaskManager implements TaskManager {
                     epicMap.get(subTask.getParrentId()).getSubTaskList().add(numberOfTaskIds);
                     subTaskMap.put(numberOfTaskIds, subTask);
                     updateStatusEpic(subTask.getParrentId());
+                    epicMap.get(subTask.getParrentId()).setDurationEpic(subTask);
+                    epicMap.get(subTask.getParrentId()).setEndTimeEpic(subTask);
                     System.out.println("Подзадача с названием: '" + subTask.name + "' успешно создана.");
                 } else {
                     System.out.println("Ошибка - введите корректный id");
@@ -168,13 +170,11 @@ public class InMemoryTaskManager implements TaskManager {
         int subtaskStatusCount = 0;
         int newSubtaskStatusCount = 0;
         if (epicMap.get(epicId).getSubTaskList().isEmpty()) {
-            Epic epic = epicMap.get(epicId);
-            epic.setStatus(StatusTypes.NEW);
+            epicMap.get(epicId).setStatus(StatusTypes.NEW);
             return;
         }
         if (subTaskMap.isEmpty()) {
-            Epic epic = epicMap.get(epicId);
-            epic.setStatus(StatusTypes.NEW);
+            epicMap.get(epicId).setStatus(StatusTypes.NEW);
             return;
         }
         for (Integer i : epicMap.get(epicId).getSubTaskList()) {

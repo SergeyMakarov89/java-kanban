@@ -1,10 +1,14 @@
+import java.time.Duration;
+import java.time.LocalTime;
+
 public class Task {
     protected String name;
     protected int id;
     protected String description;
     protected StatusTypes status;
-
     protected Types type;
+    protected Duration duration;
+    protected LocalTime startTime;
 
     public Task() {
 
@@ -17,6 +21,7 @@ public class Task {
         this.type = Types.TASK;
     }
 
+
     public Task(String name, String discription, int id, StatusTypes statusTypes) {
         this.name = name;
         this.description = discription;
@@ -24,18 +29,40 @@ public class Task {
         this.status = statusTypes;
     }
 
+    public Task(String name, String discription, String startTime, String duration) {
+        this.name = name;
+        this.description = discription;
+        this.status = StatusTypes.NEW;
+        this.type = Types.TASK;
+        this.startTime = LocalTime.parse(startTime);
+        this.duration = Duration.parse(duration);
+    }
+
+    public Task(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration) {
+        this.name = name;
+        this.description = discription;
+        this.id = id;
+        this.status = statusTypes;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
+
+
+
 
     @Override
     public String toString() {
         return "Задача:'" + name +
                 "', id:'" + id +
                 "', С описанием:'" + description +
-                "', C текущим статусом:'" + status + "'";
+                "', C текущим статусом:'" + status +
+                "', С временем старта:'" + startTime +
+                "', С продолжительностью:'" + duration + "'";
     }
 
     public String toStringToFile() {
         return id + "," + type + "," + name + "," +
-                status + "," + description;
+                status + "," + description + "," + startTime + "," + duration;
     }
 
     public int getId() {
@@ -54,5 +81,10 @@ public class Task {
 
     public void setStatus(StatusTypes status) {
         this.status = status;
+    }
+
+    public LocalTime getEndTime() {
+        LocalTime endTime = startTime.plus(duration);
+        return endTime;
     }
 }

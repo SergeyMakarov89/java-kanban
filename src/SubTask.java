@@ -1,3 +1,6 @@
+import java.time.Duration;
+import java.time.LocalTime;
+
 public class SubTask extends Task {
 
     private int parrentId;
@@ -27,18 +30,41 @@ public class SubTask extends Task {
         this.parrentId = parrentId;
     }
 
+    public SubTask(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration, int parrentId) {
+        this.name = name;
+        this.description = discription;
+        this.type = Types.SUBTASK;
+        this.id = id;
+        this.status = statusTypes;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.parrentId = parrentId;
+    }
+
+    public SubTask(String name, String discription, int parrentId, String startTime, String duration) {
+        super.name = name;
+        super.description = discription;
+        super.type = Types.SUBTASK;
+        this.status = StatusTypes.NEW;
+        this.parrentId = parrentId;
+        this.startTime = LocalTime.parse(startTime);
+        this.duration = Duration.parse(duration);
+    }
+
     @Override
     public String toString() {
         return "Подзадача:'" + name +
                 "', id:'" + id +
                 "', С описанием:'" + description +
-                "', C текущим статусом:'" + status + "'";
+                "', C текущим статусом:'" + status + "'" +
+                "', С временем старта:'" + startTime +
+                "', С продолжительностью:'" + duration + "'";
     }
 
     @Override
     public String toStringToFile() {
         return id + "," + type + "," + name + "," +
-                status + "," + description + "," + parrentId;
+                status + "," + description + "," + startTime + "," + duration + "," + parrentId;
     }
 
     public int getParrentId() {
