@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.time.Duration;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -11,6 +9,13 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, SubTask> subTaskMap = new HashMap<>();
     protected HistoryManager inMemoryHistoryManager = Managers.makeInMemoryHistoryManager();
 
+    protected TreeSet<Task> sortedTasksByTime = new TreeSet<>(new Comparator<Task>() {
+        @Override
+        public int compare(Task task1, Task task2) {
+            return task1.startTime.compareTo(task2.startTime);
+        }
+    });
+
     @Override
     public void makeNewTask(Task task) {
 
@@ -19,6 +24,7 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(numberOfTaskIds);
 
         taskMap.put(numberOfTaskIds, task);
+        addTaskToTreeSet(task);
         System.out.println("Задача с названием: '" + task.name + "' успешно создана.");
     }
 
@@ -29,6 +35,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         epic.setId(numberOfTaskIds);
         epicMap.put(numberOfTaskIds, epic);
+        addTaskToTreeSet(epic);
         System.out.println("Эпик с названием: '" + epic.name + "' успешно создан.");
     }
 
@@ -43,6 +50,7 @@ public class InMemoryTaskManager implements TaskManager {
 
                     subTask.setId(numberOfTaskIds);
                     epicMap.get(subTask.getParrentId()).getSubTaskList().add(numberOfTaskIds);
+                    addTaskToTreeSet(subTask);
                     subTaskMap.put(numberOfTaskIds, subTask);
                     updateStatusEpic(subTask.getParrentId());
                     epicMap.get(subTask.getParrentId()).setDurationEpic(subTask);
@@ -63,6 +71,7 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             if (taskMap.containsKey(task.getId())) {
                 taskMap.put(task.getId(), task);
+                addTaskToTreeSet(task);
                 System.out.println("Задача с id: '" + task.getId() + "' успешно изменена.");
             } else {
                 System.out.println("Ошибка - введите корректный id");
@@ -81,6 +90,7 @@ public class InMemoryTaskManager implements TaskManager {
                 epic.setSubTaskList(subTaskArray);
                 epic.setStatus(epicMap.get(epic.getId()).getStatus());
                 epicMap.put(epic.getId(), epic);
+                addTaskToTreeSet(epic);
                 System.out.println("Эпик с id: '" + epic.getId() + "' успешно изменен.");
             } else {
                 System.out.println("Ошибка - введите корректный id");
@@ -102,6 +112,7 @@ public class InMemoryTaskManager implements TaskManager {
                 subTaskMap.put(subTask.getId(), subTask);
                 epic = epicMap.get(subTask.getParrentId());
                 updateStatusEpic(epic.getId());
+                addTaskToTreeSet(subTask);
                 System.out.println("Подазадача с id: '" + subTask.getId() + "' успешно изменена.");
             } else {
                 System.out.println("Ошибка - введите корректный id");
@@ -112,11 +123,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTaskById(int removingId) {
-
+    Task taskToDel = null;
         if (taskMap.isEmpty()) {
             System.out.println("Удаление невозможно, список Задач пуст.");
         } else {
             if (taskMap.containsKey(removingId)) {
+                if (taskMap.get(removingId).getStartTime() != null) {
+                    for (Task task2 : sortedTasksByTime) {
+                        if (removingId == task2.getId()) {
+                            taskToDel = task2;
+                        }
+                    }
+                    if (taskToDel != null) {
+                        sortedTasksByTime.remove(taskToDel);
+                    }
+                }
                 inMemoryHistoryManager.remove(removingId);
                 taskMap.remove(removingId);
                 System.out.println("Задача с id: '" + removingId + "' успешно удалена.");
@@ -128,14 +149,36 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpicById(int removingId) {
+    Task taskToDel = null;
+    Task subTaskToDel = null;
 
         if (epicMap.isEmpty()) {
             System.out.println("Удаление невозможно, список Эпиков пуст.");
         } else {
             if (epicMap.containsKey(removingId)) {
+                for (Integer j : epicMap.get(removingId).getSubTaskList()) {
+                    for (Task task : sortedTasksByTime) {
+                        if (task.getId() == subTaskMap.get(j).getId()) {
+                            subTaskToDel = subTaskMap.get(j);
+                        }
+                    }
+                    if (subTaskToDel != null) {
+                        sortedTasksByTime.remove(subTaskToDel);
+                    }
+                }
                 for (Integer i : epicMap.get(removingId).getSubTaskList()) {
                     inMemoryHistoryManager.remove(i);
                     subTaskMap.remove(i);
+                }
+                if (epicMap.get(removingId).getStartTime() != null) {
+                    for (Task task2 : sortedTasksByTime) {
+                        if (removingId == task2.getId()) {
+                            taskToDel = task2;
+                        }
+                    }
+                    if (taskToDel != null) {
+                        sortedTasksByTime.remove(taskToDel);
+                    }
                 }
                 inMemoryHistoryManager.remove(removingId);
                 epicMap.remove(removingId);
@@ -148,6 +191,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteSubTaskById(int removingId) {
+    Task taskToDel = null;
 
         if (subTaskMap.isEmpty()) {
             System.out.println("Удаление невозможно, список Подзадач пуст.");
@@ -155,6 +199,18 @@ public class InMemoryTaskManager implements TaskManager {
             if (subTaskMap.containsKey(removingId)) {
                 int epicId = subTaskMap.get(removingId).getParrentId();
                 (epicMap.get((subTaskMap.get(removingId)).getParrentId())).getSubTaskList().remove(Integer.valueOf(removingId));
+                if (subTaskMap.get(removingId).getStartTime() != null) {
+                    for (Task task2 : sortedTasksByTime) {
+                        if (removingId == task2.getId()) {
+                            taskToDel = task2;
+                            Duration newDuration = epicMap.get(subTaskMap.get(removingId).getParrentId()).getDuration().minus(subTaskMap.get(removingId).getDuration());
+                            epicMap.get(subTaskMap.get(removingId).getParrentId()).setDurationEpicAfterRemovingSubTask(newDuration);
+                        }
+                    }
+                    if (taskToDel != null) {
+                        sortedTasksByTime.remove(taskToDel);
+                    }
+                }
                 inMemoryHistoryManager.remove(removingId);
                 subTaskMap.remove(removingId);
                 updateStatusEpic(epicId);
@@ -251,5 +307,25 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return inMemoryHistoryManager.getHistory();
+    }
+
+    public void addTaskToTreeSet(Task task1) {
+        Task taskToDel = null;
+
+        if (task1.getStartTime() != null) {
+            for (Task task2 : sortedTasksByTime) {
+                if (task1.getId() == task2.getId()) {
+                    taskToDel = task2;
+                }
+            }
+            if (taskToDel != null) {
+                sortedTasksByTime.remove(taskToDel);
+            }
+            sortedTasksByTime.add(task1);
+        }
+    }
+
+    public TreeSet<Task> getPrioritizedTasks() {
+        return sortedTasksByTime;
     }
 }

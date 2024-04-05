@@ -73,12 +73,23 @@ public class Epic extends Task {
         this.duration = duration;
     }
 
+    public Epic(String name, String discription, int id, String startTime) {
+        this.name = name;
+        this.description = discription;
+        this.id = id;
+        this.startTime = LocalTime.parse(startTime);
+        this.status = StatusTypes.NEW;
+        this.type = Types.EPIC;
+        this.subTaskList = new ArrayList<Integer>();
+        this.duration = null;
+    }
+
     @Override
     public String toString() {
         return "Эпик:'" + name +
                 "', id:'" + id +
                 "', С описанием:'" + description +
-                "', C текущим статусом:'" + status + "'" +
+                "', C текущим статусом:'" + status +
                 "', С временем старта:'" + startTime +
                 "', С продолжительностью:'" + duration + "'";
 
@@ -127,6 +138,10 @@ public class Epic extends Task {
 
                 }
         }
+    }
+
+    public void setDurationEpicAfterRemovingSubTask(Duration newDuration) {
+        super.duration = newDuration;
     }
 
     public LocalTime getEndTimeEpic() {

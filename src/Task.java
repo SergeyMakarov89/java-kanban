@@ -47,6 +47,16 @@ public class Task {
         this.duration = duration;
     }
 
+    public Task(String name, String discription, int id, String startTime, String duration) {
+        this.name = name;
+        this.description = discription;
+        this.id = id;
+        this.status = StatusTypes.NEW;
+        this.type = Types.TASK;
+        this.startTime = LocalTime.parse(startTime);
+        this.duration = Duration.parse(duration);
+    }
+
 
 
 
@@ -86,5 +96,13 @@ public class Task {
     public LocalTime getEndTime() {
         LocalTime endTime = startTime.plus(duration);
         return endTime;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
     }
 }
