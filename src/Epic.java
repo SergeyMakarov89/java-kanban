@@ -84,6 +84,28 @@ public class Epic extends Task {
         this.duration = null;
     }
 
+    public Epic(String name, String discription, String startTime, String duranation) {
+        this.name = name;
+        this.description = discription;
+        this.id = id;
+        this.startTime = LocalTime.parse(startTime);
+        this.status = StatusTypes.NEW;
+        this.type = Types.EPIC;
+        this.subTaskList = new ArrayList<Integer>();
+        this.duration = Duration.parse(duranation);
+    }
+
+    public Epic(String name, String discription, int id, String startTime, String duranation) {
+        this.name = name;
+        this.description = discription;
+        this.id = id;
+        this.startTime = LocalTime.parse(startTime);
+        this.status = StatusTypes.NEW;
+        this.type = Types.EPIC;
+        this.subTaskList = new ArrayList<Integer>();
+        this.duration = Duration.parse(duranation);
+    }
+
     @Override
     public String toString() {
         return "Эпик:'" + name +
@@ -94,12 +116,6 @@ public class Epic extends Task {
                 "', С продолжительностью:'" + duration + "'";
 
     }
-
-   /* @Override
-    public String toStringToFile() {
-        return id + "," + type + "," + name + "," +
-                status + "," + description + "," + startTime;
-    }*/
 
     public ArrayList<Integer> getSubTaskList() {
         return subTaskList;
@@ -115,28 +131,28 @@ public class Epic extends Task {
 
     public void setEndTimeEpic(SubTask subTask) {
         if (!(subTaskList.isEmpty())) {
-                if (subTask.getParrentId() == id) {
-                    if (endTimeEpic == null) {
-                        endTimeEpic = startTime.plus(subTask.duration);
-                    } else {
-                        endTimeEpic = endTimeEpic.plus(subTask.duration);
-                    }
-
+            if (subTask.getParrentId() == id) {
+                if (endTimeEpic == null) {
+                    endTimeEpic = startTime.plus(subTask.duration);
+                } else {
+                    endTimeEpic = endTimeEpic.plus(subTask.duration);
                 }
+
+            }
 
         }
     }
 
     public void setDurationEpic(SubTask subTask) {
         if (!(subTaskList.isEmpty())) {
-                if (subTask.getParrentId() == id) {
-                    if (duration == null) {
-                        duration = subTask.duration;
-                    } else {
-                        duration = duration.plus(subTask.duration);
-                    }
-
+            if (subTask.getParrentId() == id) {
+                if (duration == null) {
+                    duration = subTask.duration;
+                } else {
+                    duration = duration.plus(subTask.duration);
                 }
+
+            }
         }
     }
 
@@ -147,4 +163,5 @@ public class Epic extends Task {
     public LocalTime getEndTimeEpic() {
         return endTimeEpic;
     }
+
 }

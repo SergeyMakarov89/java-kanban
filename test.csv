@@ -1,4 +1,1 @@
 id,type,name,status,description,starttime,duration,epic
-1,EPIC,Купить продукты,NEW,Сходить в магазин и прибарахлиться,19:50,PT20M
-2,SUBTASK,Купить молоко,NEW,Купить молоко Простоквашино,19:51,PT10M,1
-4,SUBTASK,Купить яйца,NEW,Купить яйцо куриное,20:10,PT10M,1

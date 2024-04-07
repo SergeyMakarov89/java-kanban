@@ -96,17 +96,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             fileWriter.write("id,type,name,status,description,starttime,duration,epic");
             if (!taskMap.isEmpty()) {
                 for (Task task : taskMap.values()) {
-                    fileWriter.write("\n" + task.toStringToFile());
+                    if (task.getStartTime() != null) {
+                        fileWriter.write("\n" + task.toStringToFile());
+                    }
                 }
             }
             if (!epicMap.isEmpty()) {
                 for (Epic epic : epicMap.values()) {
-                    fileWriter.write("\n" + epic.toStringToFile());
+                    if (epic.getStartTime() != null) {
+                        fileWriter.write("\n" + epic.toStringToFile());
+                    }
                 }
             }
             if (!subTaskMap.isEmpty()) {
                 for (SubTask subTask : subTaskMap.values()) {
-                    fileWriter.write("\n" + subTask.toStringToFile());
+                    if (subTask.getStartTime() != null) {
+                        fileWriter.write("\n" + subTask.toStringToFile());
+                    }
                 }
             }
             if (inMemoryHistoryManager.getHistory() != null) {

@@ -51,12 +51,11 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        if (!taskMapHistory.isEmpty()) {
+        if ((!taskMapHistory.isEmpty())) {
             remove(task.id);
         }
         linkLast(task);
     }
-
 
     public List<Task> getHistory() {
         return getTasks();

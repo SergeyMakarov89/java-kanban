@@ -62,6 +62,17 @@ public class SubTask extends Task {
         this.duration = Duration.parse(duration);
     }
 
+    public SubTask(String name, String discription, int id, int parrentId, String startTime, String duration, StatusTypes statusTypes) {
+        super.name = name;
+        super.description = discription;
+        super.type = Types.SUBTASK;
+        this.status = statusTypes;
+        this.id = id;
+        this.parrentId = parrentId;
+        this.startTime = LocalTime.parse(startTime);
+        this.duration = Duration.parse(duration);
+    }
+
     @Override
     public String toString() {
         return "Подзадача:'" + name +

@@ -21,7 +21,6 @@ public class Task {
         this.type = Types.TASK;
     }
 
-
     public Task(String name, String discription, int id, StatusTypes statusTypes) {
         this.name = name;
         this.description = discription;
@@ -57,9 +56,6 @@ public class Task {
         this.duration = Duration.parse(duration);
     }
 
-
-
-
     @Override
     public String toString() {
         return "Задача:'" + name +
@@ -79,11 +75,9 @@ public class Task {
         return id;
     }
 
-
     public StatusTypes getStatus() {
         return status;
     }
-
 
     public void setId(int id) {
         this.id = id;
@@ -104,5 +98,9 @@ public class Task {
 
     public Duration getDuration() {
         return duration;
+    }
+
+    public Types getLocalClass() {
+        return this.type;
     }
 }
