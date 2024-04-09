@@ -16,7 +16,7 @@ class FileBackedTaskManagerTest {
         Task task2 = new Task("Поиграть в компик", "Включить компьютер и поиграть", "14:00", "PT40M");
         fileBackedTaskManager.makeNewTask(task2);
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         fileBackedTaskManager.makeNewEpic(epic);
 
         SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 3, "12:01", "PT10M");
@@ -28,7 +28,7 @@ class FileBackedTaskManagerTest {
         SubTask subTask3 = new SubTask("Купить яйца", "Купить яйцо куриное", 3, "12:23", "PT10M");
         fileBackedTaskManager.makeNewSubTask(subTask3);
 
-        Epic epic2 = new Epic("Забрать жену с работы", "Взять машину и забрать жену с работы", "18:00", "PT0M");
+        Epic epic2 = new Epic("Забрать жену с работы", "Взять машину и забрать жену с работы");
         fileBackedTaskManager.makeNewEpic(epic2);
 
         SubTask subTask4 = new SubTask("Забрать жену", "Доехать до работы и забрать жену", 7, "18:01", "PT40M");
@@ -88,7 +88,7 @@ class FileBackedTaskManagerTest {
         Task task2 = new Task("Поиграть в компик", "Включить компьютер и поиграть", "14:00", "PT40M");
         fileBackedTaskManager.makeNewTask(task2);
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         fileBackedTaskManager.makeNewEpic(epic);
 
         SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 3, "12:01", "PT10M");

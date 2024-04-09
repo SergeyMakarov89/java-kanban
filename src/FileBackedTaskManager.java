@@ -137,15 +137,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 String line = bufferedReader.readLine();
                 String[] subStrings = line.split(",");
                 if (subStrings[1].equals("TASK")) {
-                    Task task = new Task(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), LocalTime.parse(subStrings[5]), Duration.parse(subStrings[6]));
+                    Task task = new Task(subStrings[2], subStrings[4], subStrings[0], subStrings[3], subStrings[5], subStrings[6]);
                     taskMap.put(Integer.parseInt(subStrings[0]), task);
+                    addTaskToTreeSet(task);
                 } else if (subStrings[1].equals("EPIC")) {
-                    Epic epic = new Epic(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), LocalTime.parse(subStrings[5]), Duration.parse(subStrings[6]));
+                    Epic epic = new Epic(subStrings[2], subStrings[4], subStrings[0], subStrings[3], subStrings[5], subStrings[6]);
                     epicMap.put(Integer.parseInt(subStrings[0]), epic);
                 } else if (subStrings[1].equals("SUBTASK")) {
-                    SubTask subTask = new SubTask(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), LocalTime.parse(subStrings[5]), Duration.parse(subStrings[6]), Integer.parseInt(subStrings[7]));
+                    SubTask subTask = new SubTask(subStrings[2], subStrings[4], subStrings[0], subStrings[3], subStrings[5], subStrings[6], subStrings[7]);
                     subTaskMap.put(Integer.parseInt(subStrings[0]), subTask);
                     epicMap.get(Integer.parseInt(subStrings[7])).getSubTaskList().add(Integer.parseInt(subStrings[0]));
+                    addTaskToTreeSet(subTask);
                 } else if (!(subStrings[1].equals("type"))) {
                     Collections.reverse(Arrays.asList(subStrings));
                     for (String subString : subStrings) {

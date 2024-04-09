@@ -22,23 +22,15 @@ public class SubTask extends Task {
 
     }
 
-    public SubTask(String name, String discription, int id, StatusTypes statusTypes, int parrentId) {
-        this.name = name;
-        this.description = discription;
-        this.id = id;
-        this.status = statusTypes;
-        this.parrentId = parrentId;
-    }
-
-    public SubTask(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration, int parrentId) {
+    public SubTask(String name, String discription, String id, String statusTypes, String startTime, String duration, String parrentId) {
         this.name = name;
         this.description = discription;
         this.type = Types.SUBTASK;
-        this.id = id;
-        this.status = statusTypes;
-        this.startTime = startTime;
-        this.duration = duration;
-        this.parrentId = parrentId;
+        this.id = Integer.parseInt(id);
+        this.status = StatusTypes.valueOf(statusTypes);
+        this.startTime = LocalTime.parse(startTime);
+        this.duration = Duration.parse(duration);
+        this.parrentId = Integer.parseInt(parrentId);
     }
 
     public SubTask(String name, String discription, int parrentId, String startTime, String duration) {
@@ -46,17 +38,6 @@ public class SubTask extends Task {
         super.description = discription;
         super.type = Types.SUBTASK;
         this.status = StatusTypes.NEW;
-        this.parrentId = parrentId;
-        this.startTime = LocalTime.parse(startTime);
-        this.duration = Duration.parse(duration);
-    }
-
-    public SubTask(String name, String discription, int id, int parrentId, String startTime, String duration) {
-        super.name = name;
-        super.description = discription;
-        super.type = Types.SUBTASK;
-        this.status = StatusTypes.NEW;
-        this.id = id;
         this.parrentId = parrentId;
         this.startTime = LocalTime.parse(startTime);
         this.duration = Duration.parse(duration);

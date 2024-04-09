@@ -19,7 +19,7 @@ class InMemoryHistoryManagerTest {
         fileBackedTaskManager.makeNewTask(task2);
         assertEquals(2, fileBackedTaskManager.getTaskById(2).getId());
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         fileBackedTaskManager.makeNewEpic(epic);
         assertEquals(3, fileBackedTaskManager.getEpicById(3).getId());
 
@@ -78,7 +78,7 @@ class InMemoryHistoryManagerTest {
         inMemoryTaskManager.makeNewTask(task2);
         assertEquals(2, inMemoryTaskManager.taskMap.get(2).getId());
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
         assertEquals(3, inMemoryTaskManager.epicMap.get(3).getId());
 

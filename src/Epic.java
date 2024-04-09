@@ -14,7 +14,6 @@ public class Epic extends Task {
         this.subTaskList = new ArrayList<Integer>();
     }
 
-
     public Epic(String name, String discription, int id) {
         this.name = name;
         this.description = discription;
@@ -22,63 +21,15 @@ public class Epic extends Task {
         this.subTaskList = new ArrayList<Integer>();
     }
 
-    public Epic(String name, String discription, int id, StatusTypes statusTypes) {
+    public Epic(String name, String discription, String id, String statusTypes, String startTime, String duration) {
         this.name = name;
         this.description = discription;
-        this.id = id;
-        this.status = statusTypes;
-        this.subTaskList = new ArrayList<Integer>();
-    }
-
-    public Epic(String name, String discription, String startTime) {
-        this.name = name;
-        this.description = discription;
-        this.startTime = LocalTime.parse(startTime);
-        this.status = StatusTypes.NEW;
+        this.id = Integer.parseInt(id);
         this.type = Types.EPIC;
-        this.subTaskList = new ArrayList<Integer>();
-        this.duration = null;
-    }
-
-    public Epic(String name, String discription, int id, StatusTypes statusTypes, String startTime) {
-        this.name = name;
-        this.description = discription;
-        this.id = id;
-        this.status = statusTypes;
+        this.status = StatusTypes.valueOf(statusTypes);
         this.subTaskList = new ArrayList<Integer>();
         this.startTime = LocalTime.parse(startTime);
-        this.duration = null;
-    }
-
-    public Epic(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime) {
-        this.name = name;
-        this.description = discription;
-        this.id = id;
-        this.status = statusTypes;
-        this.subTaskList = new ArrayList<Integer>();
-        this.startTime = startTime;
-    }
-
-    public Epic(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration) {
-        this.name = name;
-        this.description = discription;
-        this.id = id;
-        this.type = Types.EPIC;
-        this.status = statusTypes;
-        this.subTaskList = new ArrayList<Integer>();
-        this.startTime = startTime;
-        this.duration = duration;
-    }
-
-    public Epic(String name, String discription, int id, String startTime) {
-        this.name = name;
-        this.description = discription;
-        this.id = id;
-        this.startTime = LocalTime.parse(startTime);
-        this.status = StatusTypes.NEW;
-        this.type = Types.EPIC;
-        this.subTaskList = new ArrayList<Integer>();
-        this.duration = null;
+        this.duration = Duration.parse(duration);
     }
 
     public Epic(String name, String discription, String startTime, String duranation) {
@@ -96,10 +47,10 @@ public class Epic extends Task {
         this.name = name;
         this.description = discription;
         this.id = id;
-        this.startTime = LocalTime.parse(startTime);
         this.status = StatusTypes.NEW;
         this.type = Types.EPIC;
         this.subTaskList = new ArrayList<Integer>();
+        this.startTime = LocalTime.parse(startTime);
         this.duration = Duration.parse(duranation);
     }
 
@@ -127,28 +78,21 @@ public class Epic extends Task {
     }
 
     public void setEndTimeEpic(SubTask subTask) {
-        if (!(subTaskList.isEmpty())) {
-            if (subTask.getParrentId() == id) {
-                if (endTimeEpic == null) {
-                    endTimeEpic = startTime.plus(subTask.duration);
-                } else {
-                    endTimeEpic = endTimeEpic.plus(subTask.duration);
-                }
-
+        if ((!(subTaskList.isEmpty())) && (subTask.getParrentId() == id)) {
+            if (endTimeEpic == null) {
+                endTimeEpic = startTime.plus(subTask.duration);
+            } else {
+                endTimeEpic = endTimeEpic.plus(subTask.duration);
             }
-
         }
     }
 
     public void setDurationEpic(SubTask subTask) {
-        if (!(subTaskList.isEmpty())) {
-            if (subTask.getParrentId() == id) {
-                if (duration == null) {
-                    duration = subTask.duration;
-                } else {
-                    duration = duration.plus(subTask.duration);
-                }
-
+        if ((!(subTaskList.isEmpty())) && (subTask.getParrentId() == id)) {
+            if (duration == null) {
+                duration = subTask.duration;
+            } else {
+                duration = duration.plus(subTask.duration);
             }
         }
     }
@@ -161,4 +105,14 @@ public class Epic extends Task {
         return endTimeEpic;
     }
 
+    public void setStartTimeEpic(SubTask subTask) {
+        if ((!(subTaskList.isEmpty())) && (subTask.getParrentId() == id)) {
+            if (this.getStartTime() == null) {
+                this.startTime = subTask.getStartTime();
+            }
+            if (startTime.isAfter(subTask.getStartTime())) {
+                this.startTime = subTask.getStartTime();
+            }
+        }
+    }
 }

@@ -37,13 +37,14 @@ public class Task {
         this.duration = Duration.parse(duration);
     }
 
-    public Task(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration) {
+    public Task(String name, String discription, String id, String statusTypes, String startTime, String duration) {
         this.name = name;
         this.description = discription;
-        this.id = id;
-        this.status = statusTypes;
-        this.startTime = startTime;
-        this.duration = duration;
+        this.id = Integer.parseInt(id);
+        this.status = StatusTypes.valueOf(statusTypes);
+        this.startTime = LocalTime.parse(startTime);
+        this.duration = Duration.parse(duration);
+        this.type = Types.TASK;
     }
 
     public Task(String name, String discription, int id, String startTime, String duration) {

@@ -30,7 +30,7 @@ class InMemoryTaskManagerTest {
     @Test
     void epicCanNotAddItselfIntoEpicAsSubtask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
 
         SubTask subTask = new SubTask("Купить мясо", "Купить мясо говядины, вырезку", 1, "12:01", "PT10M");
@@ -68,7 +68,7 @@ class InMemoryTaskManagerTest {
         inMemoryTaskManager.makeNewTask(task2);
         assertEquals(2, inMemoryTaskManager.taskMap.get(2).getId());
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
         assertEquals(3, inMemoryTaskManager.epicMap.get(3).getId());
 
@@ -108,7 +108,7 @@ class InMemoryTaskManagerTest {
     @Test
     void canChangeSubTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
-        Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic1);
 
         SubTask subTask1 = new SubTask("Купить молоко", "Купить молоко Простоквашино", 1, "12:01", "PT10M");
@@ -139,7 +139,7 @@ class InMemoryTaskManagerTest {
     void canDeleteEpic() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
 
         SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 1, "12:01", "PT10M");
@@ -173,7 +173,7 @@ class InMemoryTaskManagerTest {
     void canDeleteSubTask() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
 
         SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 1, "12:01", "PT10M");
@@ -198,7 +198,7 @@ class InMemoryTaskManagerTest {
     void canGetAllSubTasksByEpicId() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
 
         SubTask subTask = new SubTask("Купить молоко", "Купить молоко Простоквашино", 1, "12:01", "PT10M");
@@ -216,7 +216,7 @@ class InMemoryTaskManagerTest {
     @Test
     void canUpdateStatusEpic() {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
-        Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic1 = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic1);
 
         SubTask subTask1 = new SubTask("Купить молоко", "Купить молоко Простоквашино", 1, "12:01", "PT10M");
@@ -241,7 +241,7 @@ class InMemoryTaskManagerTest {
         inMemoryTaskManager.makeNewTask(task2);
         assertEquals(2, inMemoryTaskManager.taskMap.get(2).getId());
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         inMemoryTaskManager.makeNewEpic(epic);
         assertEquals(3, inMemoryTaskManager.epicMap.get(3).getId());
 
@@ -281,7 +281,7 @@ class InMemoryTaskManagerTest {
         fileBackedTaskManager.makeNewTask(task2);
         assertEquals(2, fileBackedTaskManager.taskMap.get(2).getId());
 
-        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться", "12:00", "PT0M");
+        Epic epic = new Epic("Купить продукты", "Сходить в магазин и прибарахлиться");
         fileBackedTaskManager.makeNewEpic(epic);
         assertEquals(3, fileBackedTaskManager.epicMap.get(3).getId());
 

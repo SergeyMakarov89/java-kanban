@@ -35,10 +35,9 @@ public class InMemoryTaskManager implements TaskManager {
 
         epic.setId(numberOfTaskIds);
 
-        if (addTaskToTreeSet(epic)) {
-            epicMap.put(numberOfTaskIds, epic);
-            System.out.println("Эпик с названием: '" + epic.name + "' успешно создан.");
-        }
+        epicMap.put(numberOfTaskIds, epic);
+        System.out.println("Эпик с названием: '" + epic.name + "' успешно создан.");
+
     }
 
     @Override
@@ -56,6 +55,7 @@ public class InMemoryTaskManager implements TaskManager {
                     epicMap.get(subTask.getParrentId()).getSubTaskList().add(numberOfTaskIds);
                     subTaskMap.put(numberOfTaskIds, subTask);
                     updateStatusEpic(subTask.getParrentId());
+                    epicMap.get(subTask.getParrentId()).setStartTimeEpic(subTask);
                     epicMap.get(subTask.getParrentId()).setDurationEpic(subTask);
                     epicMap.get(subTask.getParrentId()).setEndTimeEpic(subTask);
                     System.out.println("Подзадача с названием: '" + subTask.name + "' успешно создана.");
@@ -90,13 +90,11 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Изменение невозможно, список Эпиков пуст.\nСоздайте Эпик.");
         } else {
             if (epicMap.containsKey(epic.getId())) {
-                if (addTaskToTreeSet(epic)) {
-                    ArrayList<Integer> subTaskArray = epicMap.get(epic.getId()).getSubTaskList();
-                    epic.setSubTaskList(subTaskArray);
-                    epic.setStatus(epicMap.get(epic.getId()).getStatus());
-                    epicMap.put(epic.getId(), epic);
-                    System.out.println("Эпик с id: '" + epic.getId() + "' успешно изменен.");
-                }
+                ArrayList<Integer> subTaskArray = epicMap.get(epic.getId()).getSubTaskList();
+                epic.setSubTaskList(subTaskArray);
+                epic.setStatus(epicMap.get(epic.getId()).getStatus());
+                epicMap.put(epic.getId(), epic);
+                System.out.println("Эпик с id: '" + epic.getId() + "' успешно изменен.");
             } else {
                 System.out.println("Ошибка - введите корректный id");
             }
@@ -119,6 +117,9 @@ public class InMemoryTaskManager implements TaskManager {
                     epic = epicMap.get(subTask.getParrentId());
                     updateStatusEpic(epic.getId());
                     addTaskToTreeSet(subTask);
+                    epicMap.get(subTask.getParrentId()).setStartTimeEpic(subTask);
+                    epicMap.get(subTask.getParrentId()).setDurationEpic(subTask);
+                    epicMap.get(subTask.getParrentId()).setEndTimeEpic(subTask);
                     System.out.println("Подазадача с id: '" + subTask.getId() + "' успешно изменена.");
                 }
             } else {
@@ -337,14 +338,6 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("Время задачи пересекается с другой задачей, перепланируйте время.");
                 return false;
             } else {
-                for (Task task2 : sortedTasksByTime) {
-                    if (task1.getId() == task2.getId()) {
-                        taskToDel = task2;
-                    }
-                }
-                if (taskToDel != null) {
-                    sortedTasksByTime.remove(taskToDel);
-                }
                 sortedTasksByTime.add(task1);
             }
         } else {
@@ -358,65 +351,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public boolean isTasksOverlap(Task newTask) {
-        if (newTask.getLocalClass() == Types.SUBTASK) {
-            List<Task> subTaskListOfEpic = new ArrayList<>();
-            SubTask subTask1 = (SubTask) newTask;
-            if ((epicMap.get(subTask1.getParrentId()).getSubTaskList()) != null) {
-                for (Integer i : epicMap.get(subTask1.getParrentId()).getSubTaskList()) {
-                    subTaskListOfEpic.add(subTaskMap.get(i));
-                }
-            }
-            if (!(subTaskListOfEpic.isEmpty())) {
-                return subTaskListOfEpic.stream()
-                        .anyMatch(subTask2 -> newTask.getStartTime().isBefore(subTask2.getEndTime()) &&
-                                newTask.getEndTime().isAfter(subTask2.getStartTime()));
-            } else {
-                List<Task> listOfTasksEpicAndSubTasksWithParrentEpic = new ArrayList<>();
-                if (taskMap != null) {
-                    for (Task task : taskMap.values()) {
-                        listOfTasksEpicAndSubTasksWithParrentEpic.add(task);
-                    }
-                }
-                if (epicMap != null) {
-                    for (Task epic : epicMap.values()) {
-                        if (!(subTask1.getParrentId() == epic.getId())) {
-                            listOfTasksEpicAndSubTasksWithParrentEpic.add(epic);
-                        }
-                    }
-                }
-                if (subTaskMap != null) {
-                    for (Task subTask : subTaskMap.values()) {
-                        listOfTasksEpicAndSubTasksWithParrentEpic.add(subTask);
-                    }
-                }
-                if (listOfTasksEpicAndSubTasksWithParrentEpic != null) {
-                    return listOfTasksEpicAndSubTasksWithParrentEpic.stream()
-                            .anyMatch(task -> newTask.getStartTime().isBefore(task.getEndTime()) &&
-                                    newTask.getEndTime().isAfter(task.getStartTime()));
-                } else {
-                    return false;
-                }
-
-            }
-        }
-        if (newTask.getLocalClass() == Types.EPIC) {
-            List<Task> listOfTasksAndEpicsWithoutSubTasks = new ArrayList<>();
-            if (taskMap != null) {
-                for (Task task : taskMap.values()) {
-                    listOfTasksAndEpicsWithoutSubTasks.add(task);
-                }
-            }
-            if (epicMap != null) {
-                for (Epic epic : epicMap.values()) {
-                    listOfTasksAndEpicsWithoutSubTasks.add(epic);
-                }
-            }
-            if (listOfTasksAndEpicsWithoutSubTasks != null) {
-                return listOfTasksAndEpicsWithoutSubTasks.stream()
-                        .anyMatch(task -> newTask.getStartTime().isBefore(task.getEndTime()) &&
-                                newTask.getEndTime().isAfter(task.getStartTime()));
-            }
-        }
         return getPrioritizedTasks().stream()
                 .anyMatch(prioritizedTask -> newTask.getStartTime().isBefore(prioritizedTask.getEndTime()) &&
                         newTask.getEndTime().isAfter(prioritizedTask.getStartTime()));
