@@ -5,6 +5,7 @@ public class SubTask extends Task {
 
     private int parrentId;
 
+    //конструктор для создания сабтаски без времени старта и продолжительности
     public SubTask(String name, String discription, int parrentId) {
         super.name = name;
         super.description = discription;
@@ -13,6 +14,7 @@ public class SubTask extends Task {
         this.parrentId = parrentId;
     }
 
+    //конструктор для изменения сабтаски без времени старта и продолжительности
     public SubTask(String name, String discription, int parrentId, int id, StatusTypes statusTypes) {
         this.name = name;
         this.description = discription;
@@ -22,17 +24,7 @@ public class SubTask extends Task {
 
     }
 
-    public SubTask(String name, String discription, String id, String statusTypes, String startTime, String duration, String parrentId) {
-        this.name = name;
-        this.description = discription;
-        this.type = Types.SUBTASK;
-        this.id = Integer.parseInt(id);
-        this.status = StatusTypes.valueOf(statusTypes);
-        this.startTime = LocalTime.parse(startTime);
-        this.duration = Duration.parse(duration);
-        this.parrentId = Integer.parseInt(parrentId);
-    }
-
+    //конструктор для создания сабтаски с временем старта и продолжительностью
     public SubTask(String name, String discription, int parrentId, String startTime, String duration) {
         super.name = name;
         super.description = discription;
@@ -43,6 +35,7 @@ public class SubTask extends Task {
         this.duration = Duration.parse(duration);
     }
 
+    //конструктор для изменения сабтаски с временем старта и продолжительностью
     public SubTask(String name, String discription, int id, int parrentId, String startTime, String duration, StatusTypes statusTypes) {
         super.name = name;
         super.description = discription;
@@ -52,6 +45,18 @@ public class SubTask extends Task {
         this.parrentId = parrentId;
         this.startTime = LocalTime.parse(startTime);
         this.duration = Duration.parse(duration);
+    }
+
+    //конструктор для восстановления сабтаски из файла с временем старта и продолжительностью
+    public SubTask(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration, int parrentId) {
+        this.name = name;
+        this.description = discription;
+        this.type = Types.SUBTASK;
+        this.id = id;
+        this.status = statusTypes;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.parrentId = parrentId;
     }
 
     @Override

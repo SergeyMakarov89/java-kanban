@@ -1,1 +1,6 @@
 id,type,name,status,description,starttime,duration,epic
+2,TASK,Покушать,NEW,Достать питсу и покушать,18:30,PT30M
+3,EPIC,Купить продукты,NEW,Сходить в магазин и прибарахлиться,12:00,PT20M
+5,SUBTASK,Купить мясо,NEW,Купить мясо говядины,12:10,PT10M,3
+6,SUBTASK,Купить яйца,NEW,Купить яйцо куриное,12:20,PT10M,3
+5,3

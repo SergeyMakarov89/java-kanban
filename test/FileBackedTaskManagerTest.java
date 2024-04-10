@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileBackedTaskManagerTest {
     @Test
     void loadFromFileTest() {
-        String path = "C:\\Users\\1\\Videos\\java-kanban\\test.csv";
+        String path = "test.csv";
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
 
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "13:30", "PT20M");
@@ -76,7 +76,7 @@ class FileBackedTaskManagerTest {
 
     @Test
     void saveTest() {
-        String path = "C:\\Users\\1\\Videos\\java-kanban\\test.csv";
+        String path = "test.csv";
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
 
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "13:30", "PT20M");

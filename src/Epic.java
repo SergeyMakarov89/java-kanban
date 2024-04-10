@@ -1,11 +1,13 @@
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Epic extends Task {
     private ArrayList<Integer> subTaskList;
     protected LocalTime endTimeEpic;
 
+    //конструктор для создания эпика без времени старта и продолжительности
     public Epic(String name, String discription) {
         super.name = name;
         super.description = discription;
@@ -14,6 +16,7 @@ public class Epic extends Task {
         this.subTaskList = new ArrayList<Integer>();
     }
 
+    //конструктор для изменения эпика без времени старта и продолжительности
     public Epic(String name, String discription, int id) {
         this.name = name;
         this.description = discription;
@@ -21,37 +24,40 @@ public class Epic extends Task {
         this.subTaskList = new ArrayList<Integer>();
     }
 
-    public Epic(String name, String discription, String id, String statusTypes, String startTime, String duration) {
+    //конструктор для создания эпика с временем старта и продолжительностью
+    public Epic(String name, String discription, String startTime, String duration) {
         this.name = name;
         this.description = discription;
-        this.id = Integer.parseInt(id);
+        this.id = id;
+        this.startTime = LocalTime.parse(startTime);
+        this.status = StatusTypes.NEW;
         this.type = Types.EPIC;
-        this.status = StatusTypes.valueOf(statusTypes);
+        this.subTaskList = new ArrayList<Integer>();
+        this.duration = Duration.parse(duration);
+    }
+
+    //конструктор для изменения эпика с временем старта и продолжительностью
+    public Epic(String name, String discription, int id, String startTime, String duration) {
+        this.name = name;
+        this.description = discription;
+        this.id = id;
+        this.status = StatusTypes.NEW;
+        this.type = Types.EPIC;
         this.subTaskList = new ArrayList<Integer>();
         this.startTime = LocalTime.parse(startTime);
         this.duration = Duration.parse(duration);
     }
 
-    public Epic(String name, String discription, String startTime, String duranation) {
+    //конструктор для восстановления эпика из файла с временем старта и продолжительностью
+    public Epic(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration) {
         this.name = name;
         this.description = discription;
         this.id = id;
-        this.startTime = LocalTime.parse(startTime);
-        this.status = StatusTypes.NEW;
         this.type = Types.EPIC;
+        this.status = statusTypes;
         this.subTaskList = new ArrayList<Integer>();
-        this.duration = Duration.parse(duranation);
-    }
-
-    public Epic(String name, String discription, int id, String startTime, String duranation) {
-        this.name = name;
-        this.description = discription;
-        this.id = id;
-        this.status = StatusTypes.NEW;
-        this.type = Types.EPIC;
-        this.subTaskList = new ArrayList<Integer>();
-        this.startTime = LocalTime.parse(startTime);
-        this.duration = Duration.parse(duranation);
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     @Override
@@ -77,42 +83,22 @@ public class Epic extends Task {
         this.subTaskList = subTaskList;
     }
 
-    public void setEndTimeEpic(SubTask subTask) {
-        if ((!(subTaskList.isEmpty())) && (subTask.getParrentId() == id)) {
-            if (endTimeEpic == null) {
-                endTimeEpic = startTime.plus(subTask.duration);
-            } else {
-                endTimeEpic = endTimeEpic.plus(subTask.duration);
-            }
-        }
-    }
-
-    public void setDurationEpic(SubTask subTask) {
-        if ((!(subTaskList.isEmpty())) && (subTask.getParrentId() == id)) {
-            if (duration == null) {
-                duration = subTask.duration;
-            } else {
-                duration = duration.plus(subTask.duration);
-            }
-        }
-    }
-
-    public void setDurationEpicAfterRemovingSubTask(Duration newDuration) {
-        super.duration = newDuration;
-    }
-
     public LocalTime getEndTimeEpic() {
         return endTimeEpic;
     }
 
-    public void setStartTimeEpic(SubTask subTask) {
-        if ((!(subTaskList.isEmpty())) && (subTask.getParrentId() == id)) {
-            if (this.getStartTime() == null) {
-                this.startTime = subTask.getStartTime();
+    public void updateEpicStartTimeDurationAndEndTime(Map<Integer, SubTask> subTaskMap) {
+        LocalTime minStartTime = LocalTime.of(23, 59, 59);
+        duration = Duration.parse("PT0M");
+        for (Integer i : subTaskList) {
+            for (SubTask subTask : subTaskMap.values()) {
+                if (subTask.getParrentId() == this.getId() && minStartTime.isAfter(subTask.getStartTime())) {
+                    minStartTime = subTask.getStartTime();
+                }
             }
-            if (startTime.isAfter(subTask.getStartTime())) {
-                this.startTime = subTask.getStartTime();
-            }
+            this.startTime = minStartTime;
+            this.duration = duration.plus(subTaskMap.get(i).getDuration());
+            this.endTimeEpic = this.getStartTime().plus(this.getDuration());
         }
     }
 }

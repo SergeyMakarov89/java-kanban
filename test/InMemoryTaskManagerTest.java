@@ -270,7 +270,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void canAddSubTaskToTimeLine() {
-        String path = "C:\\Users\\1\\Videos\\java-kanban\\test.csv";
+        String path = "test.csv";
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
 
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "13:30", "PT20M");
@@ -292,7 +292,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void canAddTaskWithOutTIme() {
-        String path = "C:\\Users\\1\\Videos\\java-kanban\\test.csv";
+        String path = "test.csv";
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
 
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться");

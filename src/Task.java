@@ -14,6 +14,7 @@ public class Task {
 
     }
 
+    //конструктор для создания таски без времени старта и продолжительности
     public Task(String name, String discription) {
         this.name = name;
         this.description = discription;
@@ -21,6 +22,7 @@ public class Task {
         this.type = Types.TASK;
     }
 
+    //конструктор для изменения таски без времени старта и продолжительности
     public Task(String name, String discription, int id, StatusTypes statusTypes) {
         this.name = name;
         this.description = discription;
@@ -28,6 +30,7 @@ public class Task {
         this.status = statusTypes;
     }
 
+    //конструктор для создания сабтаски с временем старта и продолжительностью
     public Task(String name, String discription, String startTime, String duration) {
         this.name = name;
         this.description = discription;
@@ -37,16 +40,7 @@ public class Task {
         this.duration = Duration.parse(duration);
     }
 
-    public Task(String name, String discription, String id, String statusTypes, String startTime, String duration) {
-        this.name = name;
-        this.description = discription;
-        this.id = Integer.parseInt(id);
-        this.status = StatusTypes.valueOf(statusTypes);
-        this.startTime = LocalTime.parse(startTime);
-        this.duration = Duration.parse(duration);
-        this.type = Types.TASK;
-    }
-
+    //конструктор для изменения таски с временем старта и продолжительностью
     public Task(String name, String discription, int id, String startTime, String duration) {
         this.name = name;
         this.description = discription;
@@ -55,6 +49,17 @@ public class Task {
         this.type = Types.TASK;
         this.startTime = LocalTime.parse(startTime);
         this.duration = Duration.parse(duration);
+    }
+
+    //конструктор для восстановления таски из файла с временем старта и продолжительностью
+    public Task(String name, String discription, int id, StatusTypes statusTypes, LocalTime startTime, Duration duration) {
+        this.name = name;
+        this.description = discription;
+        this.id = id;
+        this.status = statusTypes;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.type = Types.TASK;
     }
 
     @Override

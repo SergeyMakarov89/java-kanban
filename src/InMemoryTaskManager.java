@@ -1,4 +1,3 @@
-import java.time.Duration;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -55,9 +54,7 @@ public class InMemoryTaskManager implements TaskManager {
                     epicMap.get(subTask.getParrentId()).getSubTaskList().add(numberOfTaskIds);
                     subTaskMap.put(numberOfTaskIds, subTask);
                     updateStatusEpic(subTask.getParrentId());
-                    epicMap.get(subTask.getParrentId()).setStartTimeEpic(subTask);
-                    epicMap.get(subTask.getParrentId()).setDurationEpic(subTask);
-                    epicMap.get(subTask.getParrentId()).setEndTimeEpic(subTask);
+                    epicMap.get(subTask.getParrentId()).updateEpicStartTimeDurationAndEndTime(subTaskMap);
                     System.out.println("Подзадача с названием: '" + subTask.name + "' успешно создана.");
                 }
             } else {
@@ -116,10 +113,7 @@ public class InMemoryTaskManager implements TaskManager {
                     subTaskMap.put(subTask.getId(), subTask);
                     epic = epicMap.get(subTask.getParrentId());
                     updateStatusEpic(epic.getId());
-                    addTaskToTreeSet(subTask);
-                    epicMap.get(subTask.getParrentId()).setStartTimeEpic(subTask);
-                    epicMap.get(subTask.getParrentId()).setDurationEpic(subTask);
-                    epicMap.get(subTask.getParrentId()).setEndTimeEpic(subTask);
+                    epicMap.get(subTask.getParrentId()).updateEpicStartTimeDurationAndEndTime(subTaskMap);
                     System.out.println("Подазадача с id: '" + subTask.getId() + "' успешно изменена.");
                 }
             } else {
@@ -136,14 +130,7 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             if (taskMap.containsKey(removingId)) {
                 if (taskMap.get(removingId).getStartTime() != null) {
-                    for (Task task2 : sortedTasksByTime) {
-                        if (removingId == task2.getId()) {
-                            taskToDel = task2;
-                        }
-                    }
-                    if (taskToDel != null) {
-                        sortedTasksByTime.remove(taskToDel);
-                    }
+                    sortedTasksByTime.removeIf(task -> removingId == task.getId());
                 }
                 inMemoryHistoryManager.remove(removingId);
                 taskMap.remove(removingId);
@@ -198,8 +185,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteSubTaskById(int removingId) {
-        Task taskToDel = null;
-
         if (subTaskMap.isEmpty()) {
             System.out.println("Удаление невозможно, список Подзадач пуст.");
         } else {
@@ -207,16 +192,8 @@ public class InMemoryTaskManager implements TaskManager {
                 int epicId = subTaskMap.get(removingId).getParrentId();
                 (epicMap.get((subTaskMap.get(removingId)).getParrentId())).getSubTaskList().remove(Integer.valueOf(removingId));
                 if (subTaskMap.get(removingId).getStartTime() != null) {
-                    for (Task task2 : sortedTasksByTime) {
-                        if (removingId == task2.getId()) {
-                            taskToDel = task2;
-                            Duration newDuration = epicMap.get(subTaskMap.get(removingId).getParrentId()).getDuration().minus(subTaskMap.get(removingId).getDuration());
-                            epicMap.get(subTaskMap.get(removingId).getParrentId()).setDurationEpicAfterRemovingSubTask(newDuration);
-                        }
-                    }
-                    if (taskToDel != null) {
-                        sortedTasksByTime.remove(taskToDel);
-                    }
+                    sortedTasksByTime.removeIf(subTask -> removingId == subTask.getId());
+                    epicMap.get(subTaskMap.get(removingId).getParrentId()).updateEpicStartTimeDurationAndEndTime(subTaskMap);
                 }
                 inMemoryHistoryManager.remove(removingId);
                 subTaskMap.remove(removingId);

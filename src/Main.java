@@ -2,7 +2,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String path = "C:\\Users\\1\\Videos\\java-kanban\\test.csv";
+        String path = "test.csv";
+
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
     }
 }
