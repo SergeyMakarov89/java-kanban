@@ -1,4 +1,6 @@
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -90,20 +92,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() {
         try (Writer fileWriter = new FileWriter(path)) {
-            fileWriter.write("id,type,name,status,description,epic");
+            fileWriter.write("id,type,name,status,description,starttime,duration,epic");
             if (!taskMap.isEmpty()) {
                 for (Task task : taskMap.values()) {
-                    fileWriter.write("\n" + task.toStringToFile());
+                    if (task.getStartTime() != null) {
+                        fileWriter.write("\n" + task.toStringToFile());
+                    }
                 }
             }
             if (!epicMap.isEmpty()) {
                 for (Epic epic : epicMap.values()) {
-                    fileWriter.write("\n" + epic.toStringToFile());
+                    if (epic.getStartTime() != null) {
+                        fileWriter.write("\n" + epic.toStringToFile());
+                    }
                 }
             }
             if (!subTaskMap.isEmpty()) {
                 for (SubTask subTask : subTaskMap.values()) {
-                    fileWriter.write("\n" + subTask.toStringToFile());
+                    if (subTask.getStartTime() != null) {
+                        fileWriter.write("\n" + subTask.toStringToFile());
+                    }
                 }
             }
             if (inMemoryHistoryManager.getHistory() != null) {
@@ -129,15 +137,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 String line = bufferedReader.readLine();
                 String[] subStrings = line.split(",");
                 if (subStrings[1].equals("TASK")) {
-                    Task task = new Task(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]));
+                    Task task = new Task(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), LocalTime.parse(subStrings[5]), Duration.parse(subStrings[6]));
                     taskMap.put(Integer.parseInt(subStrings[0]), task);
+                    addTaskToTreeSet(task);
                 } else if (subStrings[1].equals("EPIC")) {
-                    Epic epic = new Epic(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]));
+                    Epic epic = new Epic(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), LocalTime.parse(subStrings[5]), Duration.parse(subStrings[6]));
                     epicMap.put(Integer.parseInt(subStrings[0]), epic);
                 } else if (subStrings[1].equals("SUBTASK")) {
-                    SubTask subTask = new SubTask(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), Integer.parseInt(subStrings[5]));
+                    SubTask subTask = new SubTask(subStrings[2], subStrings[4], Integer.parseInt(subStrings[0]), StatusTypes.valueOf(subStrings[3]), LocalTime.parse(subStrings[5]), Duration.parse(subStrings[6]), Integer.parseInt(subStrings[7]));
                     subTaskMap.put(Integer.parseInt(subStrings[0]), subTask);
-                    epicMap.get(Integer.parseInt(subStrings[5])).getSubTaskList().add(Integer.parseInt(subStrings[0]));
+                    epicMap.get(Integer.parseInt(subStrings[7])).getSubTaskList().add(Integer.parseInt(subStrings[0]));
+                    addTaskToTreeSet(subTask);
                 } else if (!(subStrings[1].equals("type"))) {
                     Collections.reverse(Arrays.asList(subStrings));
                     for (String subString : subStrings) {

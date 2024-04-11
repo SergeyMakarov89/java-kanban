@@ -57,7 +57,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         linkLast(task);
     }
 
-
     public List<Task> getHistory() {
         return getTasks();
     }
