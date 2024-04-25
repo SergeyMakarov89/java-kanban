@@ -8,4 +8,10 @@ public class Managers {
         HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
         return inMemoryHistoryManager;
     }
+
+    public static FileBackedTaskManager makeFileBackedTaskManager(String path) {
+        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
+        return fileBackedTaskManager;
+    }
+
 }
