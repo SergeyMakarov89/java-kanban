@@ -162,7 +162,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     name = subString3;
                     continue;
                 }
@@ -171,7 +171,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     description = subString3;
                     continue;
                 }
@@ -180,7 +180,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     startTime = subString3;
                     continue;
                 }
@@ -189,7 +189,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-3);
+                    String subString3 = subString2.substring(0, index2 - 3);
                     duration = subString3;
                     continue;
                 }
@@ -333,7 +333,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     name = subString3;
                     continue;
                 }
@@ -342,7 +342,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     description = subString3;
                     continue;
                 }
@@ -351,7 +351,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     startTime = subString3;
                     continue;
                 }
@@ -360,7 +360,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-3);
+                    String subString3 = subString2.substring(0, index2 - 3);
                     duration = subString3;
                     continue;
                 }
@@ -490,7 +490,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     name = subString3;
                     continue;
                 }
@@ -499,7 +499,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     description = subString3;
                     continue;
                 }
@@ -508,7 +508,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     status = StatusTypes.valueOf(subString3);
                     continue;
                 }
@@ -525,7 +525,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-1);
+                    String subString3 = subString2.substring(0, index2 - 1);
                     startTime = subString3;
                     continue;
                 }
@@ -534,7 +534,7 @@ public class HttpTaskServer {
                     String subString1 = strings[i].substring(index1);
                     String subString2 = subString1.substring(3);
                     int index2 = subString2.length();
-                    String subString3 = subString2.substring(0, index2-3);
+                    String subString3 = subString2.substring(0, index2 - 3);
                     duration = subString3;
                     continue;
                 }
@@ -592,6 +592,7 @@ public class HttpTaskServer {
             handleGetPrioritized(httpExchange);
 
         }
+
         public void handleGetPrioritized(HttpExchange httpExchange) throws IOException {
             String jsonAllTasks = "";
 
