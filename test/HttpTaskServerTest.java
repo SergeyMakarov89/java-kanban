@@ -14,16 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HttpTaskServerTest {
 
-    HttpTaskServer httpTaskServer = new HttpTaskServer();
+    public static String path = "test.csv";
+    FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(path);
+    HttpTaskServer httpTaskServer = new HttpTaskServer(fileBackedTaskManager);
     HttpServer httpServer = null;
 
     @BeforeEach
     public void startUp() throws IOException {
         httpServer = httpTaskServer.startServer();
-    }
-
-    @BeforeEach
-    public void deleteAllTasks() throws IOException {
         httpTaskServer.deleteAllTasks();
     }
 
@@ -35,7 +33,7 @@ class HttpTaskServerTest {
     @Test
     void addTaskTest() throws IOException, InterruptedException {
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "16:00", "PT40M");
-        Gson gsonTask = httpTaskServer.getGsonTask();
+        Gson gsonTask = httpTaskServer.tasksHandler.getGsonTask();
         String jsonTask = gsonTask.toJson(task);
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/tasks");
@@ -52,7 +50,7 @@ class HttpTaskServerTest {
     @Test
     void changeTaskTest() throws IOException, InterruptedException {
         Task task1 = new Task("Погулять", "Выйти на улицу и прогуляться", "16:00", "PT40M");
-        Gson gsonTask = httpTaskServer.getGsonTask();
+        Gson gsonTask = httpTaskServer.tasksHandler.getGsonTask();
         String jsonTask1 = gsonTask.toJson(task1);
 
         HttpClient client = HttpClient.newHttpClient();
@@ -81,7 +79,7 @@ class HttpTaskServerTest {
     @Test
     void deleteTaskTest() throws IOException, InterruptedException {
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "16:00", "PT40M");
-        Gson gsonTask = httpTaskServer.getGsonTask();
+        Gson gsonTask = httpTaskServer.tasksHandler.getGsonTask();
         String jsonTask = gsonTask.toJson(task);
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/tasks");
@@ -106,7 +104,7 @@ class HttpTaskServerTest {
     @Test
     void getAllTasksTest() throws IOException, InterruptedException {
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "16:00", "PT40M");
-        Gson gsonTask = httpTaskServer.getGsonTask();
+        Gson gsonTask = httpTaskServer.tasksHandler.getGsonTask();
         String jsonTask = gsonTask.toJson(task);
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/tasks");
@@ -130,7 +128,7 @@ class HttpTaskServerTest {
     @Test
     void addEpicTest() throws IOException, InterruptedException {
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/epics");
@@ -147,7 +145,7 @@ class HttpTaskServerTest {
     @Test
     void changeEpicTest() throws IOException, InterruptedException {
         Epic epic1 = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic1 = gsonEpic.toJson(epic1);
 
         HttpClient client = HttpClient.newHttpClient();
@@ -176,7 +174,7 @@ class HttpTaskServerTest {
     @Test
     void deleteEpicTest() throws IOException, InterruptedException {
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/epics");
@@ -202,7 +200,7 @@ class HttpTaskServerTest {
     @Test
     void getAllEpicsTest() throws IOException, InterruptedException {
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/epics");
@@ -226,7 +224,7 @@ class HttpTaskServerTest {
     @Test
     void addSubTaskTest() throws IOException, InterruptedException {
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         HttpClient client = HttpClient.newHttpClient();
         URI url1 = URI.create("http://localhost:8080/epics");
@@ -238,7 +236,7 @@ class HttpTaskServerTest {
         HttpResponse<String> response1 = client.send(request1, HttpResponse.BodyHandlers.ofString());
 
         SubTask subTask = new SubTask("Погулять", "Выйти на улицу и прогуляться", 1, "10:00", "PT50M");
-        Gson gsonSubtask = httpTaskServer.getGsonSubTasks();
+        Gson gsonSubtask = httpTaskServer.subTaskHandler.getGsonSubTasks();
         String jsonSubtask = gsonSubtask.toJson(subTask);
         URI url2 = URI.create("http://localhost:8080/subtasks");
         HttpRequest request2 = HttpRequest.newBuilder()
@@ -254,7 +252,7 @@ class HttpTaskServerTest {
     @Test
     void changeSubTaskTest() throws IOException, InterruptedException {
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         HttpClient client = HttpClient.newHttpClient();
         URI url1 = URI.create("http://localhost:8080/epics");
@@ -266,7 +264,7 @@ class HttpTaskServerTest {
         HttpResponse<String> response1 = client.send(request1, HttpResponse.BodyHandlers.ofString());
 
         SubTask subTask1 = new SubTask("Погулять", "Выйти на улицу и прогуляться", 1, "10:00", "PT50M");
-        Gson gsonSubtask = httpTaskServer.getGsonSubTasks();
+        Gson gsonSubtask = httpTaskServer.subTaskHandler.getGsonSubTasks();
         String jsonSubtask1 = gsonSubtask.toJson(subTask1);
         URI url2 = URI.create("http://localhost:8080/subtasks");
         HttpRequest request2 = HttpRequest.newBuilder()
@@ -276,7 +274,7 @@ class HttpTaskServerTest {
                 .build();
         HttpResponse<String> response2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
 
-        SubTask subTask2 = new SubTask("Погулять", "Выйти на улицу и прогуляться", 2, 1, "10:00", "PT50M", StatusTypes.IN_PROGRESS);
+        SubTask subTask2 = new SubTask("Погулять", "Выйти на улицу и прогуляться", 2, 1, "10:00", "PT50M", "IN_PROGRESS");
         String jsonSubtask2 = gsonSubtask.toJson(subTask2);
         URI url3 = URI.create("http://localhost:8080/subtasks/" + subTask2.getId());
         HttpRequest request3 = HttpRequest.newBuilder()
@@ -292,7 +290,7 @@ class HttpTaskServerTest {
     @Test
     void deleteSubTaskTest() throws IOException, InterruptedException {
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         HttpClient client = HttpClient.newHttpClient();
         URI url1 = URI.create("http://localhost:8080/epics");
@@ -304,7 +302,7 @@ class HttpTaskServerTest {
         HttpResponse<String> response1 = client.send(request1, HttpResponse.BodyHandlers.ofString());
 
         SubTask subTask = new SubTask("Погулять", "Выйти на улицу и прогуляться", 1, "10:00", "PT50M");
-        Gson gsonSubtask = httpTaskServer.getGsonSubTasks();
+        Gson gsonSubtask = httpTaskServer.subTaskHandler.getGsonSubTasks();
         String jsonSubtask = gsonSubtask.toJson(subTask);
         URI url2 = URI.create("http://localhost:8080/subtasks");
         HttpRequest request2 = HttpRequest.newBuilder()
@@ -328,7 +326,7 @@ class HttpTaskServerTest {
     @Test
     void getAllSubTasksTest() throws IOException, InterruptedException {
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         HttpClient client = HttpClient.newHttpClient();
         URI url1 = URI.create("http://localhost:8080/epics");
@@ -340,7 +338,7 @@ class HttpTaskServerTest {
         HttpResponse<String> response1 = client.send(request1, HttpResponse.BodyHandlers.ofString());
 
         SubTask subTask = new SubTask("Погулять", "Выйти на улицу и прогуляться", 1, "10:00", "PT50M");
-        Gson gsonSubtask = httpTaskServer.getGsonSubTasks();
+        Gson gsonSubtask = httpTaskServer.subTaskHandler.getGsonSubTasks();
         String jsonSubtask = gsonSubtask.toJson(subTask);
         URI url2 = URI.create("http://localhost:8080/subtasks");
         HttpRequest request2 = HttpRequest.newBuilder()
@@ -363,7 +361,7 @@ class HttpTaskServerTest {
     @Test
     void canGetHistoryTest() throws IOException, InterruptedException {
         Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "16:00", "PT40M");
-        Gson gsonTask = httpTaskServer.getGsonTask();
+        Gson gsonTask = httpTaskServer.tasksHandler.getGsonTask();
         String jsonTask = gsonTask.toJson(task);
         HttpClient client = HttpClient.newHttpClient();
         URI url1 = URI.create("http://localhost:8080/tasks");
@@ -375,7 +373,7 @@ class HttpTaskServerTest {
         HttpResponse<String> response1 = client.send(request1, HttpResponse.BodyHandlers.ofString());
 
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         URI url2 = URI.create("http://localhost:8080/epics");
         HttpRequest request2 = HttpRequest.newBuilder()
@@ -386,7 +384,7 @@ class HttpTaskServerTest {
         HttpResponse<String> response2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
 
         SubTask subTask = new SubTask("Погулять", "Выйти на улицу и прогуляться", 2, "10:00", "PT50M");
-        Gson gsonSubtask = httpTaskServer.getGsonSubTasks();
+        Gson gsonSubtask = httpTaskServer.subTaskHandler.getGsonSubTasks();
         String jsonSubtask = gsonSubtask.toJson(subTask);
         URI url3 = URI.create("http://localhost:8080/subtasks");
         HttpRequest request3 = HttpRequest.newBuilder()
@@ -433,8 +431,8 @@ class HttpTaskServerTest {
 
     @Test
     void canGetPrioritizedTest() throws IOException, InterruptedException {
-        Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "01:00", "PT40M");
-        Gson gsonTask = httpTaskServer.getGsonTask();
+        Task task = new Task("Погулять", "Выйти на улицу и прогуляться", "08:00", "PT40M");
+        Gson gsonTask = httpTaskServer.tasksHandler.getGsonTask();
         String jsonTask = gsonTask.toJson(task);
         HttpClient client = HttpClient.newHttpClient();
         URI url1 = URI.create("http://localhost:8080/tasks");
@@ -446,7 +444,7 @@ class HttpTaskServerTest {
         HttpResponse<String> response1 = client.send(request1, HttpResponse.BodyHandlers.ofString());
 
         Epic epic = new Epic("Погулять", "Выйти на улицу и прогуляться", "00:00", "PT0M");
-        Gson gsonEpic = httpTaskServer.getGsonEpic();
+        Gson gsonEpic = httpTaskServer.epicsHandler.getGsonEpic();
         String jsonEpic = gsonEpic.toJson(epic);
         URI url2 = URI.create("http://localhost:8080/epics");
         HttpRequest request2 = HttpRequest.newBuilder()
@@ -456,8 +454,8 @@ class HttpTaskServerTest {
                 .build();
         HttpResponse<String> response2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
 
-        SubTask subTask = new SubTask("Погулять", "Выйти на улицу и прогуляться", 2, "08:00", "PT50M");
-        Gson gsonSubtask = httpTaskServer.getGsonSubTasks();
+        SubTask subTask = new SubTask("Погулять", "Выйти на улицу и прогуляться", 2, "01:00", "PT50M");
+        Gson gsonSubtask = httpTaskServer.subTaskHandler.getGsonSubTasks();
         String jsonSubtask = gsonSubtask.toJson(subTask);
         URI url3 = URI.create("http://localhost:8080/subtasks");
         HttpRequest request3 = HttpRequest.newBuilder()

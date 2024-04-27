@@ -36,11 +36,11 @@ public class SubTask extends Task {
     }
 
     //конструктор для изменения сабтаски с временем старта и продолжительностью
-    public SubTask(String name, String discription, int id, int parrentId, String startTime, String duration, StatusTypes statusTypes) {
+    public SubTask(String name, String discription, int id, int parrentId, String startTime, String duration, String statusTypes) {
         super.name = name;
         super.description = discription;
         super.type = Types.SUBTASK;
-        this.status = statusTypes;
+        this.status = StatusTypes.valueOf(statusTypes);
         this.id = id;
         this.parrentId = parrentId;
         this.startTime = LocalTime.parse(startTime);
