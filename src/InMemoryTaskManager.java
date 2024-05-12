@@ -267,8 +267,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getAllTasks() {
-        List<Task> list = new ArrayList<Task>(taskMap.values());
-        return list;
+        if (!taskMap.isEmpty()) {
+            List<Task> list = new ArrayList<Task>(taskMap.values());
+            return list;
+        }
+        return null;
     }
 
     @Override
@@ -331,6 +334,10 @@ public class InMemoryTaskManager implements TaskManager {
         return getPrioritizedTasks().stream()
                 .anyMatch(prioritizedTask -> newTask.getStartTime().isBefore(prioritizedTask.getEndTime()) &&
                         newTask.getEndTime().isAfter(prioritizedTask.getStartTime()));
+    }
+
+    public void setNumberOfTaskIdsToZero() {
+        this.numberOfTaskIds = 0;
     }
 }
 

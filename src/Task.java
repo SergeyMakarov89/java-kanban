@@ -14,6 +14,7 @@ public class Task {
 
     }
 
+
     //конструктор для создания таски без времени старта и продолжительности
     public Task(String name, String discription) {
         this.name = name;
@@ -108,5 +109,17 @@ public class Task {
 
     public Types getLocalClass() {
         return this.type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Types getType() {
+        return type;
     }
 }

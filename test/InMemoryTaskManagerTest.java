@@ -115,7 +115,7 @@ class InMemoryTaskManagerTest {
         inMemoryTaskManager.makeNewSubTask(subTask1);
 
         SubTask subTask2 = new SubTask("Купить молоко сделано", "Купить молоко Простоквашино",
-                2, 1, "12:01", "PT10M", StatusTypes.DONE);
+                2, 1, "12:01", "PT10M", "DONE");
         inMemoryTaskManager.changeSubTask(subTask2);
 
         assertEquals(subTask2, inMemoryTaskManager.getSubTaskById(2));
@@ -223,7 +223,7 @@ class InMemoryTaskManagerTest {
         inMemoryTaskManager.makeNewSubTask(subTask1);
 
         SubTask subTask2 = new SubTask("Купить молоко сделано", "Купить молоко Простоквашино",
-                2, 1, "12:12", "PT10M", StatusTypes.IN_PROGRESS);
+                2, 1, "12:12", "PT10M", "IN_PROGRESS");
         inMemoryTaskManager.changeSubTask(subTask2);
 
         assertEquals(StatusTypes.IN_PROGRESS, inMemoryTaskManager.getEpicById(1).getStatus());
